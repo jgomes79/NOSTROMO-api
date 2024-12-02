@@ -1,7 +1,6 @@
 import { Get, Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { Currency } from './currency.entity';
 import { CurrencyService } from './currency.service';
 
 /**
@@ -13,7 +12,7 @@ export class CurrencyController {
   constructor(private readonly currencyService: CurrencyService) {}
 
   @Get('/')
-  getById(): Promise<Partial<Currency>> {
+  getById() {
     return {};
   }
 }

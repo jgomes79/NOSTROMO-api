@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
-import cookieParser from 'cookie-parser';
-import csurf from 'csurf';
+import * as cookieParser from 'cookie-parser';
+import * as csurf from 'csurf';
 import * as dotenv from 'dotenv';
 import { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
