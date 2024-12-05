@@ -4,7 +4,9 @@ export enum ProjectStates {
   READY_TO_VOTE = 2,
   REJECTED = 3,
   UPCOMING = 4,
-  FUNDING = 5,
-  CLOSED = 6,
-  FAILED = 7
+  FUNDING_PHASE_1 = 5,
+  FUNDING_PHASE_2 = 6,
+  FUNDING_PHASE_3 = 7,
+  CLOSED = 8,
+  FAILED = 9
 }

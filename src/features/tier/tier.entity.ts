@@ -29,6 +29,12 @@ export class Tier extends Model {
     })
     stakeAmount: number;
 
+    @Column({
+      type: DataType.DOUBLE,
+      defaultValue: 0
+    })
+    poolWeight: number;
+
     // Relationships
     @HasMany(() => User)
     users: User[];
