@@ -54,4 +54,4 @@ export class ProjectInvestment extends Model {
     @BelongsTo(() => Project)
     project: Project;
 }
-  
+

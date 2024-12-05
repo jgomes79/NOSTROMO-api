@@ -69,3 +69,8 @@ export class EditProjectDTO {
   @IsString()
   description: string;
 }
+
+export class CreateProjectInvestmentDTO {
+  @IsNumber()
+  amount: number;
+}

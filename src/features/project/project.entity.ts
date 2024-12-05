@@ -6,10 +6,12 @@ import {
   ForeignKey,
   PrimaryKey,
   DataType,
+  HasMany,
 } from 'sequelize-typescript';
 
 import { Currency } from '@/features/currency/currency.entity';
 import { ProjectStates } from '@/features/project/project.types';
+import { ProjectInvestment } from '@/features/projectInvestment/projectInvestment.entity';
 import { User } from '@/features/user/user.entity';
 
 @Table
@@ -182,4 +184,7 @@ export class Project extends Model {
 
   @BelongsTo(() => Currency)
   currency: Currency;
+
+  @HasMany(() => ProjectInvestment)
+  projectInvestments: ProjectInvestment[];
 }

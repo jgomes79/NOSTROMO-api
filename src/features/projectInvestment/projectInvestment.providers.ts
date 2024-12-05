@@ -3,7 +3,7 @@ import { ProjectInvestment } from '@/features/projectInvestment/projectInvestmen
 /**
  * Provides ProjectInvestmentRepository with ProjectInvestment model.
  */
-export const projectProviders = [
+export const projectInvestmentProviders = [
   {
     provide: 'ProjectInvestmentRepository',
     useValue: ProjectInvestment,

@@ -10,7 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { CreateProjectDTO, EditProjectDTO } from './project.dto';
+import { ProjectInvestmentService } from '../projectInvestment/projectInvestment.service';
+
+import { CreateProjectDTO, CreateProjectInvestmentDTO, EditProjectDTO } from './project.dto';
 import { ProjectService } from './project.service';
 import { ProjectStates } from './project.types';
 
@@ -20,7 +22,10 @@ import { ProjectStates } from './project.types';
 @ApiTags('Projects Service')
 @Controller('projects-service')
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) {}
+  constructor(
+    private readonly projectService: ProjectService,
+    private readonly projectInvestmentService: ProjectInvestmentService,
+  ) {}
 
   /**
    * Fetches a project by its slug.
@@ -74,6 +79,19 @@ export class ProjectController {
         address: project.currency.address
       },
     };
+  }
+
+  /**
+   * Creates a new investment for a project.
+   * @param projectId - The ID of the project to create the investment for.
+   * @param data - The data for the investment, validated against CreateProjectInvestmentDTO.
+   * @returns An empty object.
+   */
+  @Post('/project/:projectId/investment')
+  async createInvestment(@Param('projectId') projectId: number, @Body() data: CreateProjectInvestmentDTO) {
+    console.log(projectId, data);
+    await this.projectInvestmentService.getById(projectId);
+    return {};
   }
 
   /**
