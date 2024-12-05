@@ -4,7 +4,6 @@ import { Project } from "@/project/project.entity";
 
 @Table
 export class Currency extends Model {
-  // Information
   @PrimaryKey
   @Column({
     type: DataType.INTEGER,
@@ -15,11 +14,27 @@ export class Currency extends Model {
     type: DataType.STRING,
   })
   name: string;
+  
+  @Column({
+    type: DataType.INTEGER
+  })
+  chainId: number;
 
   @Column({
     type: DataType.STRING,
   })
-  symbol: string;
+  chain: string;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  address: string;
+
+  @Column({
+      type: DataType.BOOLEAN,
+      defaultValue: true
+  })
+  isActive: boolean;
 
   // Relationships
   @HasMany(() => Project)

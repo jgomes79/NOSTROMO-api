@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Currency } from '@/currency/currency.entity';
 import { Project } from '@/project/project.entity';
 import { User } from '@/user/user.entity';
+import { Tier } from '@/tier/tier.entity';
 
 @Injectable()
 export class ProjectService {
@@ -36,7 +37,7 @@ export class ProjectService {
       where: {
         slug,
       },
-      include: [Currency, User],
+      include: [Currency, User, Tier],
     });
   }
 }

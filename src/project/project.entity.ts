@@ -23,7 +23,7 @@ export class Project extends Model {
 
   @Column({
     defaultValue: ProjectStates.DRAFT,
-    type: DataType.ENUM(...Object.values(ProjectStates)),
+    type: DataType.INTEGER,
   })
   state: ProjectStates;
 
@@ -52,7 +52,13 @@ export class Project extends Model {
   })
   bannerUrl: string;
 
-  // Documents
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false
+  })
+  vip: boolean;
+
+  // Project documents
   @Column({
     type: DataType.STRING,
   })
@@ -68,21 +74,69 @@ export class Project extends Model {
   })
   tokenomicsUrl: string;
 
-  // Token Information
+  // Project comments
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
   })
-  tokensCreated: number;
+  comments: string;
 
-  @Column({
-    type: DataType.DECIMAL,
-  })
-  tokenPrice: number;
-
+  // Raising funds information
   @Column({
     type: DataType.DECIMAL,
   })
   amountToRaise: number;
+
+  @Column({
+    type: DataType.DECIMAL,
+  })
+  threshold: number;
+
+  @Column({
+    type: DataType.DATE,
+  })
+  startDate: Date;
+
+  // Token Information
+  @Column({
+    type: DataType.DOUBLE,
+  })
+  tokensSupply: number;
+
+  @Column({
+    type: DataType.DOUBLE,
+  })
+  tokensForSale: number;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  tokenName: number;
+
+  @Column({
+    type: DataType.INTEGER,
+  })
+  tokenDecimals: number;
+
+  // Vesting Information
+  @Column({
+    type: DataType.DATE,
+  })
+  TGEDate: Date;
+
+  @Column({
+    type: DataType.INTEGER,
+  })
+  UnlockTokensTGE: number;
+
+  @Column({
+    type: DataType.INTEGER,
+  })
+  cliff: number;
+
+  @Column({
+    type: DataType.INTEGER,
+  })
+  vestingDays: number;
 
   // Social Networks
   @Column({

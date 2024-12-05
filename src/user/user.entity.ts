@@ -5,10 +5,13 @@ import {
   HasMany,
   PrimaryKey,
   DataType,
+  ForeignKey,
+  BelongsTo
 } from 'sequelize-typescript';
 
 import { Project } from '@/project/project.entity';
-import { UserTiers, UserTypes } from '@/user/user.types';
+import { UserTypes } from '@/user/user.types';
+import { Tier } from '@/tier/tier.entity';
 
 @Table
 export class User extends Model {
@@ -25,18 +28,21 @@ export class User extends Model {
   wallet: string;
 
   @Column({
-    defaultValue: UserTiers.TIER_0,
-    type: DataType.ENUM(...Object.values(UserTiers)),
-  })
-  tier: UserTiers;
-
-  @Column({
     defaultValue: UserTypes.USER,
     type: DataType.ENUM(...Object.values(UserTypes)),
   })
   type: UserTypes;
 
   // Relationships
+  @ForeignKey(() => Tier)
+  @Column({
+    type: DataType.INTEGER,
+  })
+  tierId: number;
+
+  @BelongsTo(() => Tier)
+  tier: Tier;
+
   @HasMany(() => Project)
   projects: Project[];
 }

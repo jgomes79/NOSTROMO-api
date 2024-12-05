@@ -42,13 +42,22 @@ export class ProjectController {
       whitepaperUrl: project.whitepaperUrl,
       litepaperUrl: project.litepaperUrl,
       tokenomics: project.tokenomicsUrl,
-      tokensCreated: project.tokensCreated,
-      tokenPrice: project.tokenPrice,
+      comments: project.comments,
       amountToRaise: project.amountToRaise,
+      threshold: project.threshold,
+      startDate: project.startDate,
+      tokensSupply: project.tokensSupply,
+      tokensForSale: project.tokensForSale,
+      tokenName: project.tokenName,
+      tokenDecimals: project.tokenDecimals,
+      TGEDate: project.TGEDate,
+      UnlockTokensTGE: project.UnlockTokensTGE,
+      cliff: project.cliff,
+      vestingDays: project.vestingDays,
       createdAt: project.createdAt,
       owner: {
         wallet: project.owner.wallet,
-        tier: project.owner.tier,
+        tier: project.owner.tier.name,
       },
       social: {
         instagramUrl: project.instagramUrl,
@@ -60,7 +69,9 @@ export class ProjectController {
       currency: {
         id: project.currency.id,
         name: project.currency.name,
-        symbol: project.currency.symbol,
+        chainId: project.currency.chainId,
+        chain: project.currency.chain,
+        address: project.currency.address
       },
     };
   }

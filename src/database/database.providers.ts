@@ -2,6 +2,10 @@ import { Sequelize } from 'sequelize-typescript';
 
 import { Currency } from '@/currency/currency.entity';
 import { Project } from '@/project/project.entity';
+import { ProjectInvestment } from '@/projectInvestment/projectInvestment.entity';
+import { ProjectRegistration } from '@/projectRegistration/projectRegistration.entity';
+import { ProjectVote } from '@/projectVote/projectVote.entity';
+import { Tier } from '@/tier/tier.entity';
 import { User } from '@/user/user.entity';
 
 export const databaseProviders = [
@@ -24,7 +28,7 @@ export const databaseProviders = [
         },
         logging: true,
       });
-      sequelize.addModels([Project, User, Currency]);
+      sequelize.addModels([Project, ProjectVote, ProjectInvestment, ProjectRegistration, User, Tier, Currency]);
       await sequelize.sync({
         alter: true,
       });
