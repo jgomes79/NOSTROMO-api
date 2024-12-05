@@ -8,9 +8,9 @@ import {
   DataType,
 } from 'sequelize-typescript';
 
-import { Currency } from '@/currency/currency.entity';
-import { ProjectStates } from '@/project/project.types';
-import { User } from '@/user/user.entity';
+import { Currency } from '@/features/currency/currency.entity';
+import { ProjectStates } from '@/features/project/project.types';
+import { User } from '@/features/user/user.entity';
 
 @Table
 export class Project extends Model {

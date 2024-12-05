@@ -1,4 +1,4 @@
-import { Project } from '@/project/project.entity';
+import { Project } from '@/features/project/project.entity';
 
 /**
  * Provides ProjectRepository with Project model.

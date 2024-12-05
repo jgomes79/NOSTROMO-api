@@ -9,9 +9,9 @@ import {
   BelongsTo
 } from 'sequelize-typescript';
 
-import { Project } from '@/project/project.entity';
-import { UserTypes } from '@/user/user.types';
-import { Tier } from '@/tier/tier.entity';
+import { Project } from '@/features/project/project.entity';
+import { UserTypes } from '@/features/user/user.types';
+import { Tier } from '@/features/tier/tier.entity';
 
 @Table
 export class User extends Model {

@@ -7,7 +7,7 @@ import {
     DataType,
 } from 'sequelize-typescript';
   
-import { User } from '@/user/user.entity';
+import { User } from '@/features/user/user.entity';
   
 @Table
 export class Tier extends Model {

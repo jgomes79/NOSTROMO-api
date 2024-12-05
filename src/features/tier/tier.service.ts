@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { Tier } from '@/tier/tier.entity';
+import { Tier } from '@/features/tier/tier.entity';
 
 @Injectable()
 export class TierService {

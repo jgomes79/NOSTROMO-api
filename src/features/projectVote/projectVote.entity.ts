@@ -8,12 +8,12 @@ import {
     DataType,
 } from 'sequelize-typescript';
   
-import { Currency } from '@/currency/currency.entity';
-import { Project } from '@/project/project.entity';
-import { User } from '@/user/user.entity';
+import { Project } from '@/features/project/project.entity';
+import { User } from '@/features/user/user.entity';
+import { Tier } from '@/features/tier/tier.entity';
   
 @Table
-export class ProjectInvestment extends Model {
+export class ProjectVote extends Model {
     // Information
     @PrimaryKey
     @Column({
@@ -22,20 +22,11 @@ export class ProjectInvestment extends Model {
     id: number;
   
     @Column({
-      type: DataType.DOUBLE,
+      type: DataType.BOOLEAN,
     })
-    amount: number;
+    vote: boolean;
   
     // Relationships
-    @ForeignKey(() => Currency)
-    @Column({
-      type: DataType.INTEGER
-    })
-    currencyId: number;
-  
-    @BelongsTo(() => Currency)
-    currency: Currency;
-
     @ForeignKey(() => User)
     @Column({
       type: DataType.INTEGER,
@@ -44,6 +35,15 @@ export class ProjectInvestment extends Model {
   
     @BelongsTo(() => User)
     user: User;
+
+    @ForeignKey(() => Tier)
+    @Column({
+      type: DataType.INTEGER,
+    })
+    tierId: number;
+  
+    @BelongsTo(() => Tier)
+    tier: Tier;
   
     @ForeignKey(() => Project)
     @Column({

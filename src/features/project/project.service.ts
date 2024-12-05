@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { Currency } from '@/currency/currency.entity';
-import { Project } from '@/project/project.entity';
-import { User } from '@/user/user.entity';
-import { Tier } from '@/tier/tier.entity';
+import { Currency } from '@/features/currency/currency.entity';
+import { Project } from '@/features/project/project.entity';
+import { User } from '@/features/user/user.entity';
+import { Tier } from '@/features/tier/tier.entity';
 
 @Injectable()
 export class ProjectService {

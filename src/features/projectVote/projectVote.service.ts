@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { Project } from '@/project/project.entity';
-import { User } from '@/user/user.entity';
+import { Project } from '@/features/project/project.entity';
+import { User } from '@/features/user/user.entity';
 
 import { ProjectVoteResponseDTO } from './projectVote.dto';
 import { ProjectVote } from './projectVote.entity';

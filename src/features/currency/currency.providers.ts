@@ -1,4 +1,4 @@
-import { Currency } from "@/currency/currency.entity";
+import { Currency } from "@/features/currency/currency.entity";
 
 /**
  * Provides CurrencyRepository with Currency model.

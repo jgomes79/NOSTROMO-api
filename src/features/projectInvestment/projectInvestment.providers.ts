@@ -1,4 +1,4 @@
-import { ProjectInvestment } from '@/projectInvestment/projectInvestment.entity';
+import { ProjectInvestment } from '@/features/projectInvestment/projectInvestment.entity';
 
 /**
  * Provides ProjectInvestmentRepository with ProjectInvestment model.

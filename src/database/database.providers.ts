@@ -1,12 +1,12 @@
 import { Sequelize } from 'sequelize-typescript';
 
-import { Currency } from '@/currency/currency.entity';
-import { Project } from '@/project/project.entity';
-import { ProjectInvestment } from '@/projectInvestment/projectInvestment.entity';
-import { ProjectRegistration } from '@/projectRegistration/projectRegistration.entity';
-import { ProjectVote } from '@/projectVote/projectVote.entity';
-import { Tier } from '@/tier/tier.entity';
-import { User } from '@/user/user.entity';
+import { Currency } from '@/features/currency/currency.entity';
+import { Project } from '@/features/project/project.entity';
+import { ProjectInvestment } from '@/features/projectInvestment/projectInvestment.entity';
+import { ProjectRegistration } from '@/features/projectRegistration/projectRegistration.entity';
+import { ProjectVote } from '@/features/projectVote/projectVote.entity';
+import { Tier } from '@/features/tier/tier.entity';
+import { User } from '@/features/user/user.entity';
 
 export const databaseProviders = [
   {
