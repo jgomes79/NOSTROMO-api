@@ -128,7 +128,7 @@ export class Project extends Model {
   @Column({
     type: DataType.INTEGER,
   })
-  UnlockTokensTGE: number;
+  unlockTokensTGE: number;
 
   @Column({
     type: DataType.INTEGER,

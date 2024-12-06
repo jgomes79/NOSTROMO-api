@@ -3,7 +3,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Project } from '@/features/project/project.entity';
 import { User } from '@/features/user/user.entity';
 
-import { ProjectVoteResponseDTO } from './projectVote.dto';
 import { ProjectVote } from './projectVote.entity';
 
 @Injectable()
@@ -48,7 +47,7 @@ export class ProjectVoteService {
    * @param {number} projectId - The slug of the project to retrieve.
    * @returns {Promise<ProjectVote[]>} A promise that resolves to the project with the specified slug.
    */
-    async getVoteStateForProject(projectId: number): Promise<ProjectVoteResponseDTO> {
+    async getVoteStateForProject(projectId: number): Promise<{ yes: number, no: number, total: number }> {
         const votes = await this.projectVoteRepository.findAndCountAll({
           where: {
             projectId,
@@ -67,12 +66,10 @@ export class ProjectVoteService {
             }
         }
 
-        const result: ProjectVoteResponseDTO = {
+        return {
             yes: countYes,
             no: countNo,
             total: votes.count
         };
-
-        return result;
     }
 }

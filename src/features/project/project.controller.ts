@@ -12,9 +12,10 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { ProjectInvestmentService } from '../projectInvestment/projectInvestment.service';
 import { ProjectRegistrationService } from '../projectRegistration/projectRegistration.service';
+import { ProjectVoteDTO } from '../projectVote/projectVote.dto';
 import { ProjectVoteService } from '../projectVote/projectVote.service';
 
-import { CreateProjectDTO, CreateProjectInvestmentDTO, EditProjectDTO } from './project.dto';
+import { CreateProjectDTO, CreateProjectInvestmentDTO, EditProjectDTO, ProjectResponseDTO, ProjectsResponseDTO } from './project.dto';
 import { ProjectService } from './project.service';
 import { ProjectStates } from './project.types';
 
@@ -40,49 +41,7 @@ export class ProjectController {
   async getProject(@Param('slug') slug: string) {
     const project = await this.projectService.getBySlug(slug);
 
-    return {
-      id: project.id,
-      state: project.state,
-      name: project.name,
-      slug: project.slug,
-      description: project.description,
-      photoUrl: project.photoUrl,
-      bannerUrl: project.bannerUrl,
-      whitepaperUrl: project.whitepaperUrl,
-      litepaperUrl: project.litepaperUrl,
-      tokenomics: project.tokenomicsUrl,
-      comments: project.comments,
-      amountToRaise: project.amountToRaise,
-      threshold: project.threshold,
-      startDate: project.startDate,
-      tokensSupply: project.tokensSupply,
-      tokensForSale: project.tokensForSale,
-      tokenName: project.tokenName,
-      tokenDecimals: project.tokenDecimals,
-      TGEDate: project.TGEDate,
-      UnlockTokensTGE: project.UnlockTokensTGE,
-      cliff: project.cliff,
-      vestingDays: project.vestingDays,
-      createdAt: project.createdAt,
-      owner: {
-        wallet: project.owner.wallet,
-        tier: project.owner.tier.name,
-      },
-      social: {
-        instagramUrl: project.instagramUrl,
-        xUrl: project.xUrl,
-        discordUrl: project.discordUrl,
-        telegramUrl: project.telegramUrl,
-        mediumUrl: project.mediumUrl,
-      },
-      currency: {
-        id: project.currency.id,
-        name: project.currency.name,
-        chainId: project.currency.chainId,
-        chain: project.currency.chain,
-        address: project.currency.address
-      },
-    };
+    return new ProjectResponseDTO(project);
   }
 
   /**
@@ -138,11 +97,22 @@ export class ProjectController {
    */
   @Get('/projects/:state')
   async getAllProjects(
-    @Param('state') state: ProjectStates | 'all',
+    @Param('state') state: ProjectStates,
     @Query('page') page: number,
     @Query('limit') limit: number,
   ) {
-    console.log({ state, page, limit });
-    return [];
+    const { rows, count } = await this.projectService.getAllProjects(state, page, limit);
+    return new ProjectsResponseDTO({ rows, count });
+  }
+
+  @Get('/projects/vip')
+  async getAllVIPProjects() {
+    const projects = await this.projectService.getAllVIPProjects();
+    return new ProjectsResponseDTO({ rows: projects, count: projects.length });
+  }
+
+  @Post('/projects/vote')
+  async voteForProject(@Body() data: ProjectVoteDTO) {
+    console.log(data);
   }
 }

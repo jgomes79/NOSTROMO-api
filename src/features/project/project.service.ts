@@ -2,8 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { Currency } from '@/features/currency/currency.entity';
 import { Project } from '@/features/project/project.entity';
-import { User } from '@/features/user/user.entity';
 import { Tier } from '@/features/tier/tier.entity';
+import { User } from '@/features/user/user.entity';
+
+import { ProjectStates } from './project.types';
 
 @Injectable()
 export class ProjectService {
@@ -19,7 +21,7 @@ export class ProjectService {
    * @returns {Promise<Project>} A promise that resolves to the project with the specified ID.
    */
   async getById(id: number): Promise<Project> {
-    return this.projectRepository.findOne({
+    return await this.projectRepository.findOne({
       where: {
         id,
       },
@@ -33,9 +35,31 @@ export class ProjectService {
    * @returns {Promise<Project>} A promise that resolves to the project with the specified slug.
    */
   async getBySlug(slug: string): Promise<Project> {
-    return this.projectRepository.findOne({
+    return await this.projectRepository.findOne({
       where: {
         slug,
+      },
+      include: [Currency, User, Tier],
+    });
+  }
+
+  async getAllProjects(state: number, page: number, limit: number): Promise<{ rows: Project[]; count: number }> {
+    return await this.projectRepository.findAndCountAll({
+      where: {
+        state,
+      },
+      limit,
+      offset: page * limit,
+      order: [['id', 'DESC']],
+      include: [Currency, User, Tier],
+    });
+  }
+
+  async getAllVIPProjects(): Promise<Project[]> {
+    return await this.projectRepository.findAll({
+      where: {
+        vip: true,
+        state: [ProjectStates.UPCOMING, ProjectStates.FUNDING_PHASE_1, ProjectStates.FUNDING_PHASE_2, ProjectStates.FUNDING_PHASE_3],
       },
       include: [Currency, User, Tier],
     });
