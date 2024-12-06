@@ -7,5 +7,5 @@ export const userProviders = [
   {
     provide: 'UserRepository',
     useValue: User,
-  },
+  }
 ];

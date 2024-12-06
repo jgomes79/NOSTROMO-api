@@ -35,4 +35,10 @@ export class UserController {
     console.log({ wallet });
     return {};
   }
+
+  @Post('/user/tier/:id')
+  async changeUserTier(@Param('id') tierId: number) {
+    console.log({ tierId });
+    return {};
+  }
 }

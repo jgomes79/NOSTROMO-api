@@ -12,14 +12,18 @@ export class CurrencyService {
   /**
    * Retrieves a Currency by its ID.
    *
-   * @param {string} id - The ID of the project to retrieve.
+   * @param {number} id - The ID of the currency to retrieve.
    * @returns {Promise<Currency>} A promise that resolves to the currency with the specified ID.
    */
-  async getById(id: string): Promise<Currency> {
+  async getById(id: number): Promise<Currency> {
     return this.currencyRepository.findOne({
       where: {
         id,
       },
     });
+  }
+
+  async getAllCurrencies(): Promise<Currency[]> {
+    return await this.currencyRepository.findAll();
   }
 }

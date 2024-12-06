@@ -1,4 +1,4 @@
-import { Get, Controller } from '@nestjs/common';
+import { Get, Controller, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CurrencyService } from './currency.service';
@@ -11,9 +11,14 @@ import { CurrencyService } from './currency.service';
 export class CurrencyController {
   constructor(private readonly currencyService: CurrencyService) {}
 
-  @Get('/')
-  getById() {
-    return {};
+  @Get('/currencies/:id')
+  async getCurrency(@Param('id') id: number) {
+    return await this.currencyService.getById(id);
+  }
+
+  @Get('/currencies')
+  async getAllCurrencies() {
+    return await this.currencyService.getAllCurrencies();
   }
 }
 

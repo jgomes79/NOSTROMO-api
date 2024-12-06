@@ -3,7 +3,7 @@ import { ProjectVote } from './projectVote.entity';
 /**
  * Provides ProjectVoteRepository with ProjectVote model.
  */
-export const projectProviders = [
+export const projectVoteProviders = [
   {
     provide: 'ProjectVoteRepository',
     useValue: ProjectVote,
