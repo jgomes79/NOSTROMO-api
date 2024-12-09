@@ -1,14 +1,17 @@
+import { MySqlDriver } from '@mikro-orm/mysql';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Module } from '@nestjs/common';
+import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { CurrencyModule } from './features/currency/currency.module';
-import { ProjectModule } from './features/project/project.module';
-import { ProjectInvestmentModule } from './features/project-investment/project-investment.module';
-import { ProjectRegistrationModule } from './features/project-registration/project-registration.module';
-import { ProjectVoteModule } from './features/project-vote/project-vote.module';
-import { TierModule } from './features/tier/tier.module';
-import { UserModule } from './features/user/user.module';
+import { Currency } from '@/core/currency/currency.entity';
+import { Project } from '@/core/project/project.entity';
+import { ProjectInvestment } from '@/core/project-investment/project-investment.entity';
+import { ProjectRegistration } from '@/core/project-registration/project-registration.entity';
+import { ProjectVote } from '@/core/project-vote/project-vote.entity';
+import { User } from '@/core/user/user.entity';
+
+const logger = new Logger('MikroORM');
 
 @Module({
   imports: [
@@ -19,15 +22,11 @@ import { UserModule } from './features/user/user.module';
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       dbName: process.env.DB_NAME,
-      autoLoadEntities: true,
+      entities: [User, Currency, Project, ProjectInvestment, ProjectVote, ProjectRegistration],
+      driver: MySqlDriver,
+      highlighter: new SqlHighlighter(),
+      logger: logger.log.bind(logger),
     }),
-    ProjectModule,
-    ProjectInvestmentModule,
-    ProjectRegistrationModule,
-    ProjectVoteModule,
-    UserModule,
-    CurrencyModule,
-    TierModule,
   ],
   controllers: [],
 })
