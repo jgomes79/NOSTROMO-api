@@ -1,9 +1,12 @@
-import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, ManyToOne, OneToMany, Collection } from '@mikro-orm/core';
 
 import { Currency } from '@/core/currency/currency.entity'; // Import Currency entity
 import { User } from '@/core/user/user.entity';
 
 import { ProjectStates } from './project.types';
+import { ProjectInvestment } from '../project-investment/project-investment.entity';
+import { ProjectVote } from '../project-vote/project-vote.entity';
+import { ProjectRegistration } from '../project-registration/project-registration.entity';
 
 @Entity({
   tableName: 'projects',
@@ -104,9 +107,18 @@ export class Project {
   createdAt: Date;
 
   // Relationships
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { fieldName: 'ownerId' })
   owner: User;
 
-  @ManyToOne(() => Currency, { eager: true })
+  @ManyToOne(() => Currency, { fieldName: 'currencyId' })
   currency: Currency;
+
+  @OneToMany(() => ProjectInvestment, projectInvestment => projectInvestment.project)
+  projectInvestments = new Collection<ProjectInvestment>(this);
+
+  @OneToMany(() => ProjectVote, projectVote => projectVote.project)
+  projectVotes = new Collection<ProjectVote>(this);
+
+  @OneToMany(() => ProjectRegistration, projectRegistration => projectRegistration.project)
+  projectRegistrations = new Collection<ProjectRegistration>(this);
 }

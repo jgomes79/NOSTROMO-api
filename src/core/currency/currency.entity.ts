@@ -10,7 +10,7 @@ export class Currency {
   @Property({ type: 'string' })
   name: string;
 
-  @Property({ type: 'number' })
+  @Property({ type: 'number'})
   chainId: number;
 
   @Property({ type: 'string' })
@@ -19,7 +19,7 @@ export class Currency {
   @Property({ type: 'string' })
   address: string;
 
-  @Property({ type: 'boolean', default: true })
+  @Property({ type: 'boolean', default: true})
   isActive: boolean;
 
   // Relationships

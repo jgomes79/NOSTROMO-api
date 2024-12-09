@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 
-import { MySqlDriver } from '@mikro-orm/mysql';
+import { EntityCaseNamingStrategy, MySqlDriver } from '@mikro-orm/mysql';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import { Logger, Module } from '@nestjs/common';
@@ -38,6 +38,7 @@ const entities = [User, Currency, Project, ProjectInvestment, ProjectVote, Proje
       driver: MySqlDriver,
       highlighter: new SqlHighlighter(),
       logger: logger.log.bind(logger),
+      namingStrategy: EntityCaseNamingStrategy,
       driverOptions: {
         connection: {
           ssl: {

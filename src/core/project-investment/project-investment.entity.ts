@@ -12,6 +12,6 @@ export class ProjectInvestment {
   amount: number;
 
   // Relationships
-  @ManyToOne()
+  @ManyToOne(() => Project, { fieldName: 'projectId' })
   project: Project;
 }

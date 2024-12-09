@@ -16,13 +16,13 @@ export class ProjectVote {
   vote: boolean;
   
   // Relationships
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { fieldName: 'userId' })
   user: User;
   
-  @ManyToOne(() => Tier)
+  @ManyToOne(() => Tier, { fieldName: 'tierId' })
   tier: Tier;
   
-  @ManyToOne(() => Project)
+  @ManyToOne(() => Project, { fieldName: 'projectId' })
   project: Project;
 }
 

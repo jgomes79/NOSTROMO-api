@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property, ManyToOne, OneToMany } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, ManyToOne, OneToMany, Collection } from '@mikro-orm/core';
 
 import { Project } from '@/core/project/project.entity';
 import { Tier } from '@/core/tier/tier.entity';
@@ -18,9 +18,9 @@ export class User {
   type: UserTypes;
 
   // Relationships
-  @ManyToOne(() => Tier)
+  @ManyToOne(() => Tier, { fieldName: 'tierId' })
   tier: Tier;
 
   @OneToMany(() => Project, project => project.owner)
-  projects: Project[];
+  projects = new Collection<Project>(this);
 }

@@ -12,9 +12,9 @@ export class ProjectRegistration {
   id: number;
 
   // Relationships
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { fieldName: 'userId' })
   user: User;
 
-  @ManyToOne(() => Project)
+  @ManyToOne(() => Project, { fieldName: 'projectId' })
   project: Project;
 }
