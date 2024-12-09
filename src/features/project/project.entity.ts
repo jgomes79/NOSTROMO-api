@@ -1,190 +1,111 @@
-import {
-  Table,
-  Column,
-  Model,
-  BelongsTo,
-  ForeignKey,
-  PrimaryKey,
-  DataType,
-  HasMany,
-} from 'sequelize-typescript';
+import { Entity, PrimaryKey, Property, ManyToOne, OneToMany } from '@mikro-orm/core';
 
-import { Currency } from '@/features/currency/currency.entity';
-import { ProjectStates } from '@/features/project/project.types';
-import { ProjectInvestment } from '@/features/projectInvestment/projectInvestment.entity';
-import { User } from '@/features/user/user.entity';
+import { Currency } from '../currency/currency.entity';
+import { ProjectInvestment } from '../project-investment/project-investment.entity';
+import { User } from '../user/user.entity';
 
-@Table
-export class Project extends Model {
+import { ProjectStates } from './project.types';
+
+@Entity()
+export class Project {
   // Information
-  @PrimaryKey
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @PrimaryKey()
   id: number;
 
-  @Column({
-    defaultValue: ProjectStates.DRAFT,
-    type: DataType.INTEGER,
-  })
+  @Property({ default: ProjectStates.DRAFT })
   state: ProjectStates;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   name: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   slug: string;
 
-  @Column({
-    type: DataType.TEXT,
-  })
+  @Property({ type: 'text' })
   description: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   photoUrl: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   bannerUrl: string;
 
-  @Column({
-    type: DataType.BOOLEAN,
-    defaultValue: false
-  })
+  @Property({ default: false })
   vip: boolean;
 
   // Project documents
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   whitepaperUrl: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   litepaperUrl: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   tokenomicsUrl: string;
 
   // Project comments
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   comments: string;
 
   // Raising funds information
-  @Column({
-    type: DataType.DECIMAL,
-  })
+  @Property({ type: 'decimal' })
   amountToRaise: number;
 
-  @Column({
-    type: DataType.DECIMAL,
-  })
+  @Property({ type: 'decimal' })
   threshold: number;
 
-  @Column({
-    type: DataType.DATE,
-  })
+  @Property({ type: 'date' })
   startDate: Date;
 
   // Token Information
-  @Column({
-    type: DataType.DOUBLE,
-  })
+  @Property({ type: 'double' })
   tokensSupply: number;
 
-  @Column({
-    type: DataType.DOUBLE,
-  })
+  @Property({ type: 'double' })
   tokensForSale: number;
 
-  @Column({
-    type: DataType.STRING,
-  })
-  tokenName: number;
+  @Property()
+  tokenName: string;
 
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @Property()
   tokenDecimals: number;
 
   // Vesting Information
-  @Column({
-    type: DataType.DATE,
-  })
+  @Property({ type: 'date' })
   TGEDate: Date;
 
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @Property()
   unlockTokensTGE: number;
 
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @Property()
   cliff: number;
 
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @Property()
   vestingDays: number;
 
   // Social Networks
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   instagramUrl: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   xUrl: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   discordUrl: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   telegramUrl: string;
 
-  @Column({
-    type: DataType.STRING,
-  })
+  @Property()
   mediumUrl: string;
 
   // Relationships
-  @ForeignKey(() => User)
-  @Column({
-    type: DataType.INTEGER,
-  })
-  ownerId: number;
-
-  @BelongsTo(() => User)
+  @ManyToOne()
   owner: User;
 
-  @ForeignKey(() => Currency)
-  @Column({
-    type: DataType.INTEGER,
-  })
-  currencyId: number;
-
-  @BelongsTo(() => Currency)
+  @ManyToOne()
   currency: Currency;
 
-  @HasMany(() => ProjectInvestment)
+  @OneToMany(() => ProjectInvestment, investment => investment.project)
   projectInvestments: ProjectInvestment[];
 }

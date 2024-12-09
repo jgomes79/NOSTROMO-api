@@ -1,25 +1,33 @@
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 
-import { DatabaseModule } from '@/database/database.module';
-import { projectProviders } from '@/features/project/project.providers';
-
-import { ProjectInvestmentModule } from '../projectInvestment/projectInvestment.module';
-import { ProjectInvestmentService } from '../projectInvestment/projectInvestment.service';
-import { ProjectRegistrationModule } from '../projectRegistration/projectRegistration.module';
-import { ProjectRegistrationService } from '../projectRegistration/projectRegistration.service';
-import { ProjectVoteModule } from '../projectVote/projectVote.module';
-import { ProjectVoteService } from '../projectVote/projectVote.service';
+import { ProjectInvestmentModule } from '../project-investment/project-investment.module';
+import { ProjectInvestmentService } from '../project-investment/project-investment.service';
+import { ProjectRegistrationModule } from '../project-registration/project-registration.module';
+import { ProjectRegistrationService } from '../project-registration/project-registration.service';
+import { ProjectVoteModule } from '../project-vote/project-vote.module';
+import { ProjectVoteService } from '../project-vote/project-vote.service';
 
 import { ProjectController } from './project.controller';
+import { Project } from './project.entity';
 import { ProjectService } from './project.service';
 
 /**
- * Module that provides user-related services and controllers.
+ * Module that provides project-related services and controllers.
  */
 @Module({
-  imports: [DatabaseModule, ProjectInvestmentModule, ProjectRegistrationModule, ProjectVoteModule],
+  imports: [
+    MikroOrmModule.forFeature({ entities: [Project] }),
+    ProjectInvestmentModule,
+    ProjectRegistrationModule,
+    ProjectVoteModule,
+  ],
   controllers: [ProjectController],
-  providers: [ProjectService, ProjectInvestmentService, ProjectRegistrationService, ProjectVoteService, ...projectProviders],
+  providers: [
+    ProjectService,
+    ProjectInvestmentService,
+    ProjectRegistrationService,
+    ProjectVoteService,
+  ],
 })
 export class ProjectModule {}
-

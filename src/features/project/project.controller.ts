@@ -10,10 +10,10 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import { ProjectRegistrationService } from '../project-registration/project-registration.service';
+import { ProjectVoteDTO } from '../project-vote/project-vote.dto';
+import { ProjectVoteService } from '../project-vote/project-vote.service';
 import { ProjectInvestmentService } from '../projectInvestment/projectInvestment.service';
-import { ProjectRegistrationService } from '../projectRegistration/projectRegistration.service';
-import { ProjectVoteDTO } from '../projectVote/projectVote.dto';
-import { ProjectVoteService } from '../projectVote/projectVote.service';
 
 import { CreateProjectDTO, CreateProjectInvestmentDTO, EditProjectDTO, ProjectResponseDTO, ProjectsResponseDTO } from './project.dto';
 import { ProjectService } from './project.service';

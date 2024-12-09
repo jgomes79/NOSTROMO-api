@@ -1,4 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { EntityRepository } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { Injectable } from '@nestjs/common';
 
 import { Currency } from '@/features/currency/currency.entity';
 import { Project } from '@/features/project/project.entity';
@@ -10,8 +12,8 @@ import { ProjectStates } from './project.types';
 @Injectable()
 export class ProjectService {
   constructor(
-    @Inject('ProjectRepository')
-    private projectRepository: typeof Project,
+    @InjectRepository(Project)
+    private projectRepository: EntityRepository<Project>,
   ) {}
 
   /**
@@ -21,11 +23,7 @@ export class ProjectService {
    * @returns {Promise<Project>} A promise that resolves to the project with the specified ID.
    */
   async getById(id: number): Promise<Project> {
-    return await this.projectRepository.findOne({
-      where: {
-        id,
-      },
-    });
+    return await this.projectRepository.findOne({ id });
   }
 
   /**
@@ -35,33 +33,29 @@ export class ProjectService {
    * @returns {Promise<Project>} A promise that resolves to the project with the specified slug.
    */
   async getBySlug(slug: string): Promise<Project> {
-    return await this.projectRepository.findOne({
-      where: {
-        slug,
-      },
-      include: [Currency, User, Tier],
-    });
+    return await this.projectRepository.findOne({ slug }, ['currency', 'owner', 'tier']);
   }
 
   async getAllProjects(state: number, page: number, limit: number): Promise<{ rows: Project[]; count: number }> {
-    return await this.projectRepository.findAndCountAll({
-      where: {
-        state,
-      },
-      limit,
-      offset: page * limit,
-      order: [['id', 'DESC']],
-      include: [Currency, User, Tier],
-    });
+    const [rows, count] = await this.projectRepository.findAndCount(
+      { state },
+      {
+        limit,
+        offset: page * limit,
+        orderBy: { id: 'DESC' },
+        populate: ['currency', 'owner', 'tier'],
+      }
+    );
+    return { rows, count };
   }
 
   async getAllVIPProjects(): Promise<Project[]> {
-    return await this.projectRepository.findAll({
-      where: {
+    return await this.projectRepository.find(
+      {
         vip: true,
-        state: [ProjectStates.UPCOMING, ProjectStates.FUNDING_PHASE_1, ProjectStates.FUNDING_PHASE_2, ProjectStates.FUNDING_PHASE_3],
+        state: { $in: [ProjectStates.UPCOMING, ProjectStates.FUNDING_PHASE_1, ProjectStates.FUNDING_PHASE_2, ProjectStates.FUNDING_PHASE_3] },
       },
-      include: [Currency, User, Tier],
-    });
+      ['currency', 'owner', 'tier']
+    );
   }
 }

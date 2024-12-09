@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { ProjectInvestment } from './projectInvestment.entity';
+import { ProjectInvestment } from './project-investment.entity';
 
 @Injectable()
 export class ProjectInvestmentService {

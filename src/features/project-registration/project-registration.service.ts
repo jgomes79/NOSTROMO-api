@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Project } from '@/features/project/project.entity';
 import { User } from '@/features/user/user.entity';
 
-import { ProjectRegistration } from './projectRegistration.entity';
+import { ProjectRegistration } from './project-registration.entity';
 
 @Injectable()
 export class ProjectRegistrationService {
