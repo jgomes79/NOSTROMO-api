@@ -25,7 +25,7 @@ export class ProjectService {
    * @returns {Promise<Project>} A promise that resolves to the project with the specified slug.
    */
   async getBySlug(slug: string): Promise<Project> {
-    return await this.em.findOne(Project, { slug }, { populate: ['currency', 'owner'] });
+    return await this.em.findOne(Project, { slug }, { populate: ['currency', 'owner.tier'] });
   }
 
   /**
