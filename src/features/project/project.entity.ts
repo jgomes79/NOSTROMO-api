@@ -14,6 +14,9 @@ import { ProjectStates } from '@/features/project/project.types';
 import { ProjectInvestment } from '@/features/projectInvestment/projectInvestment.entity';
 import { User } from '@/features/user/user.entity';
 
+import { ProjectRegistration } from '../projectRegistration/projectRegistration.entity';
+import { ProjectVote } from '../projectVote/projectVote.entity';
+
 @Table
 export class Project extends Model {
   // Information
@@ -187,4 +190,10 @@ export class Project extends Model {
 
   @HasMany(() => ProjectInvestment)
   projectInvestments: ProjectInvestment[];
+
+  @HasMany(() => ProjectVote)
+  projectVotes: ProjectVote[];
+
+  @HasMany(() => ProjectRegistration)
+  projectRegistrations: ProjectRegistration[];
 }

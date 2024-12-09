@@ -2,10 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { Currency } from '@/features/currency/currency.entity';
 import { Project } from '@/features/project/project.entity';
-import { Tier } from '@/features/tier/tier.entity';
 import { User } from '@/features/user/user.entity';
 
+import { ProjectInvestment } from '../projectInvestment/projectInvestment.entity';
+import { ProjectRegistration } from '../projectRegistration/projectRegistration.entity';
+import { ProjectVote } from '../projectVote/projectVote.entity';
+
 import { ProjectStates } from './project.types';
+import { Tier } from '../tier/tier.entity';
 
 @Injectable()
 export class ProjectService {
@@ -39,7 +43,7 @@ export class ProjectService {
       where: {
         slug,
       },
-      include: [Currency, User, Tier],
+      include: [Currency, User, ProjectInvestment, ProjectVote, ProjectRegistration, { model: User, include: [Tier] }],
     });
   }
 
@@ -51,7 +55,7 @@ export class ProjectService {
       limit,
       offset: page * limit,
       order: [['id', 'DESC']],
-      include: [Currency, User, Tier],
+      include: [Currency, User, ProjectInvestment, ProjectVote, ProjectRegistration, { model: User, include: [Tier] }],
     });
   }
 
@@ -61,7 +65,7 @@ export class ProjectService {
         vip: true,
         state: [ProjectStates.UPCOMING, ProjectStates.FUNDING_PHASE_1, ProjectStates.FUNDING_PHASE_2, ProjectStates.FUNDING_PHASE_3],
       },
-      include: [Currency, User, Tier],
+      include: [Currency, User, ProjectInvestment, ProjectVote, ProjectRegistration, { model: User, include: [Tier] }],
     });
   }
 }

@@ -10,7 +10,6 @@ import {
   
 import { Project } from '@/features/project/project.entity';
 import { User } from '@/features/user/user.entity';
-import { Tier } from '@/features/tier/tier.entity';
   
 @Table
 export class ProjectVote extends Model {
@@ -35,16 +34,7 @@ export class ProjectVote extends Model {
   
     @BelongsTo(() => User)
     user: User;
-
-    @ForeignKey(() => Tier)
-    @Column({
-      type: DataType.INTEGER,
-    })
-    tierId: number;
-  
-    @BelongsTo(() => Tier)
-    tier: Tier;
-  
+ 
     @ForeignKey(() => Project)
     @Column({
       type: DataType.INTEGER,
