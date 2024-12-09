@@ -11,6 +11,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 
 import { ProjectInvestmentService } from '@/core/project-investment/project-investment.service';
+import { ProjectRegistrationService } from '@/core/project-registration/project-registration.service';
 import { ProjectVoteDTO } from '@/core/project-vote/project-vote.dto';
 import { ProjectVoteService } from '@/core/project-vote/project-vote.service';
 
@@ -28,6 +29,7 @@ export class ProjectController {
     private readonly projectService: ProjectService,
     private readonly projectInvestmentService: ProjectInvestmentService,
     private readonly projectVoteService: ProjectVoteService,
+    private readonly projectRegistrationService: ProjectRegistrationService,
   ) {}
 
   /**
