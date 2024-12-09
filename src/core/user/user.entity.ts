@@ -5,7 +5,7 @@ import { Tier } from '@/core/tier/tier.entity';
 
 import { UserTypes } from './user.types';
 
-@Entity()
+@Entity({ tableName: 'users' })
 export class User {
   // Basic Information
   @PrimaryKey()

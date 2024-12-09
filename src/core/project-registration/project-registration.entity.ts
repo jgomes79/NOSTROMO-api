@@ -4,7 +4,7 @@ import { Project } from '../project/project.entity';
 import { User } from '../user/user.entity';
 
 @Entity({
-  tableName: 'project-registrations',
+  tableName: 'projectRegistrations',
 })
 export class ProjectRegistration {
   // Information

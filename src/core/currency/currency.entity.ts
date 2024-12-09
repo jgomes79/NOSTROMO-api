@@ -23,6 +23,6 @@ export class Currency {
   isActive: boolean;
 
   // Relationships
-  @OneToMany(() => Project, project => project.currency)
+  @OneToMany(() => Project, project => project.currency, { eager: true })
   projects = new Collection<Project>(this);
 }

@@ -5,7 +5,9 @@ import { User } from '@/core/user/user.entity';
 
 import { ProjectStates } from './project.types';
 
-@Entity()
+@Entity({
+  tableName: 'projects',
+})
 export class Project {
   // Information
   @PrimaryKey()
@@ -105,6 +107,6 @@ export class Project {
   @ManyToOne(() => User)
   owner: User;
 
-  @ManyToOne(() => Currency)
+  @ManyToOne(() => Currency, { eager: true })
   currency: Currency;
 }

@@ -4,7 +4,9 @@ import { Project } from '@/core/project/project.entity';
 import { Tier } from '@/core/tier/tier.entity';
 import { User } from '@/core/user/user.entity';
 
-@Entity()
+@Entity({
+  tableName: 'projectVotes',
+})
 export class ProjectVote {
   // Information
   @PrimaryKey()
