@@ -24,6 +24,10 @@ export class CurrencyService {
   }
 
   async getAllCurrencies(): Promise<Currency[]> {
-    return await this.currencyRepository.findAll();
+    return await this.currencyRepository.findAll({
+      where: {
+        isActive: true
+      }
+    });
   }
 }

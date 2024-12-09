@@ -16,12 +16,11 @@ export class UserController {
    * Retrieves a user by their wallet address.
    *
    * @param {string} wallet - The wallet address of the user to retrieve.
-   * @returns {Promise<Partial<User>>} A promise that resolves to a partial user object.
+   * @returns {Promise<User>} A promise that resolves to a partial user object.
    */
   @Get('/user/:wallet')
-  async getUser(@Param('wallet') wallet: string): Promise<Partial<User>> {
-    console.log({ wallet });
-    return {};
+  async getUser(@Param('wallet') wallet: string): Promise<User> {
+    return await this.userService.getByWallet(wallet);
   }
 
   /**
@@ -30,10 +29,9 @@ export class UserController {
    * @param {string} wallet - The wallet address of the user to register.
    * @returns {Promise<Partial<User>>} A promise that resolves to a partial user object.
    */
-  @Post('/user/:wallet')
-  async register(@Param('wallet') wallet: string): Promise<Partial<User>> {
-    console.log({ wallet });
-    return {};
+  @Post('/user/:signature')
+  async register(@Param('signature') signature: string): Promise<User> {
+    return await this.userService.register(signature);
   }
 
   @Post('/user/tier/:id')

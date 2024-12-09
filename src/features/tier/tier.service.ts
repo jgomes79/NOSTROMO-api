@@ -29,8 +29,6 @@ export class TierService {
    * @returns {Promise<Tier[]>} A promise that resolves all the tiers.
    */
   async getAllTiers(): Promise<Tier[]> {
-    return await this.tierRepository.findAll({
-      include: [Tier],
-    });
+    return await this.tierRepository.findAll();
   }
 }
