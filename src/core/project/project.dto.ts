@@ -1,6 +1,8 @@
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
 
+import { CurrencyDTO } from '@/core/currency/currency.dto';
+import { UserDTO } from '@/core/user/user.dto';
 import { IsFile } from '@/lib/decorators/file.decorators';
 
 import { Project } from './project.entity';
@@ -102,7 +104,7 @@ export class ProjectResponseDTO {
   cliff: number;
   vestingDays: number;
   createdAt: Date;
-  owner: OwnerDTO;
+  owner: UserDTO;
   social: SocialDTO;
   currency: CurrencyDTO;
 
@@ -126,22 +128,14 @@ export class ProjectResponseDTO {
       tokensForSale: project.tokensForSale,
       tokenName: project.tokenName,
       tokenDecimals: project.tokenDecimals,
+      tokenPrice: project.amountToRaise / project.tokensSupply,
       TGEDate: project.TGEDate,
       unlockTokensTGE: project.unlockTokensTGE,
       cliff: project.cliff,
       vestingDays: project.vestingDays,
-      createdAt: project.createdAt
+      createdAt: project.createdAt,
+      currency: project.currency
     });
-  }
-}
-
-class OwnerDTO {
-  wallet: string;
-  tier: string;
-
-  constructor(owner: { wallet: string; tier: { name: string } }) {
-    this.wallet = owner.wallet;
-    this.tier = owner.tier.name;
   }
 }
 
@@ -158,22 +152,6 @@ class SocialDTO {
     this.discordUrl = project.discordUrl;
     this.telegramUrl = project.telegramUrl;
     this.mediumUrl = project.mediumUrl;
-  }
-}
-
-class CurrencyDTO {
-  id: number;
-  name: string;
-  chainId: number;
-  chain: string;
-  address: string;
-
-  constructor(currency: { id: number; name: string; chainId: number; chain: string; address: string }) {
-    this.id = currency.id;
-    this.name = currency.name;
-    this.chainId = currency.chainId;
-    this.chain = currency.chain;
-    this.address = currency.address;
   }
 }
 

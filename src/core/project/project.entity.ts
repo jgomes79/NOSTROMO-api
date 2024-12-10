@@ -3,10 +3,11 @@ import { Entity, PrimaryKey, Property, ManyToOne, OneToMany, Collection } from '
 import { Currency } from '@/core/currency/currency.entity'; // Import Currency entity
 import { User } from '@/core/user/user.entity';
 
-import { ProjectStates } from './project.types';
 import { ProjectInvestment } from '../project-investment/project-investment.entity';
-import { ProjectVote } from '../project-vote/project-vote.entity';
 import { ProjectRegistration } from '../project-registration/project-registration.entity';
+import { ProjectVote } from '../project-vote/project-vote.entity';
+
+import { ProjectStates } from './project.types';
 
 @Entity({
   tableName: 'projects',
