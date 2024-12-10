@@ -22,8 +22,9 @@ import { User } from '@/core/user/user.entity';
 import { UserModule } from '@/core/user/user.module';
 
 const logger = new Logger('MikroORM');
-
 const entities = [User, Currency, Project, ProjectInvestment, ProjectVote, ProjectRegistration, Tier];
+
+const certificateDir = process.env.DB_CERTIFICATE_PATH || './src/certificates/db/DigiCertGlobalRootCA.crt.pem';
 
 @Module({
   imports: [
@@ -42,7 +43,7 @@ const entities = [User, Currency, Project, ProjectInvestment, ProjectVote, Proje
       driverOptions: {
         connection: {
           ssl: {
-            ca: readFileSync(process.env.DB_CERTIFICATE_PATH)
+            ca: readFileSync(certificateDir)
           }
         }
       }
