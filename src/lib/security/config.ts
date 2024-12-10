@@ -25,9 +25,9 @@ type Domains = Record<'LOCAL' | 'STAGING' | 'PRO', string[]>;
  * PRO: Domains for the production environment.
  */
 const domains: Domains = {
-  LOCAL: ['http://127.0.0.1:4200', 'http://localhost:4200'],
-  STAGING: [],
-  PRO: [''],
+  LOCAL: ['http://127.0.0.1:4200', 'http://localhost:4200', process.env.CORS_DOMAIN],
+  STAGING: [process.env.CORS_DOMAIN],
+  PRO: [process.env.CORS_DOMAIN],
 };
 
 export default domains;
