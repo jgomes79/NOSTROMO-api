@@ -42,7 +42,7 @@ const entities = [User, Currency, Project, ProjectInvestment, ProjectVote, Proje
       driverOptions: {
         connection: {
           ssl: {
-            ca: readFileSync('./src/certificates/db/DigiCertGlobalRootCA.crt.pem')
+            ca: readFileSync(process.env.DB_CERTIFICATE_PATH)
           }
         }
       }
