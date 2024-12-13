@@ -65,4 +65,16 @@ export class ProjectService {
       { populate: ['currency', 'owner'] }
     );
   }
+
+  async getAllProjectsByOwner(ownerId: number): Promise<Project[]> {
+    return await this.em.find(Project, { owner: { id: ownerId } }, { populate: ['currency', 'owner'] });
+  }
+
+  async searchProjects(search: string): Promise<Project[]> {
+    return await this.em.find(Project, { name: { $like: `%${search}%` } }, { populate: ['currency', 'owner'] });
+  }
+
+  async getAllInvestedProjects(userId: number): Promise<Project[]> {
+    return await this.em.find(Project, { owner: { id: userId } }, { populate: ['currency', 'owner'] });
+  }
 }

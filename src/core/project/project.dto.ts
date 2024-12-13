@@ -128,7 +128,7 @@ export class ProjectResponseDTO {
       tokensForSale: project.tokensForSale,
       tokenName: project.tokenName,
       tokenDecimals: project.tokenDecimals,
-      tokenPrice: project.amountToRaise / project.tokensSupply,
+      tokenPrice: project.amountToRaise / project.tokensForSale,
       TGEDate: project.TGEDate,
       unlockTokensTGE: project.unlockTokensTGE,
       cliff: project.cliff,

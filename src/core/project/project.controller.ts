@@ -115,4 +115,22 @@ export class ProjectController {
   async voteForProject(@Body() data: ProjectVoteDTO) {
     console.log(data);
   }
+
+  @Get('/projects/invested')
+  async getAllInvestedProjects() {
+    const projects = await this.projectService.getAllInvestedProjects(1);
+    return new ProjectsResponseDTO({ rows: projects, count: projects.length });
+  }
+
+  @Get('/projects/search')
+  async searchProjects(@Query('search') search: string) {
+    const projects = await this.projectService.searchProjects(search);
+    return new ProjectsResponseDTO({ rows: projects, count: projects.length });
+  }
+
+  @Get('/projects/owner/:ownerId')
+  async getAllProjectsByOwner(@Param('ownerId') ownerId: number) {
+    const projects = await this.projectService.getAllProjectsByOwner(ownerId);
+    return new ProjectsResponseDTO({ rows: projects, count: projects.length });
+  }
 }
