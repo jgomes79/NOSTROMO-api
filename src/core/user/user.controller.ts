@@ -1,4 +1,4 @@
-import { Get, Controller, Param, Post } from '@nestjs/common';
+import { Get, Controller, Param, Post, Put, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { User } from './user.entity';
@@ -34,10 +34,14 @@ export class UserController {
     return await this.userService.register(signature);
   }
 
-  @Post('/user/tier/:id')
-  async changeUserTier(@Param('id') tierId: number) {
-    console.log({ tierId });
-    return {};
+  @Put('/user/:id/tier/:tierId')
+  async changeUserTier(@Param('id') id: number, @Param('tierId') tierId: number) {
+    return await this.userService.changeUserTier(id, tierId);
+  }
+
+  @Delete('/user/:id/tier')
+  async removeUserTier(@Param('id') id: number) {
+    return await this.userService.removeUserTier(id);
   }
 }
 

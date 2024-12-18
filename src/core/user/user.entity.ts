@@ -23,4 +23,5 @@ export class User {
 
   @OneToMany(() => Project, project => project.owner)
   projects = new Collection<Project>(this);
+  user: any;
 }

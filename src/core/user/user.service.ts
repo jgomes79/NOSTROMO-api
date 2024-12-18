@@ -3,7 +3,10 @@ import { Injectable } from '@nestjs/common';
 
 import { User } from '@/core/user/user.entity';
 
+import { Tier } from '../tier/tier.entity';
+
 import { UserTypes } from './user.types';
+import { Project } from '../project/project.entity';
 
 @Injectable()
 export class UserService {
@@ -44,5 +47,17 @@ export class UserService {
     });
     await this.em.persistAndFlush(user);
     return user;
+  }
+
+  async changeUserTier(id: number, tierId: number) {
+    const user = await this.getById(id);
+    user.tier = await this.em.findOne(Tier, { id: tierId });
+    await this.em.persistAndFlush(user);
+  }
+
+  async removeUserTier(id: number) {
+    const user = await this.getById(id);
+    user.tier = null;
+    await this.em.persistAndFlush(user);
   }
 }
