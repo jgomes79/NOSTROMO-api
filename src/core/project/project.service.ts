@@ -25,7 +25,7 @@ export class ProjectService {
    * @returns {Promise<Project>} A promise that resolves to the project with the specified slug.
    */
   async getBySlug(slug: string): Promise<Project> {
-    return await this.em.findOne(Project, { slug }, { populate: ['currency', 'owner.tier'] });
+    return await this.em.findOne(Project, { slug }, { populate: ['currency', 'owner'] });
   }
 
   /**
@@ -66,14 +66,32 @@ export class ProjectService {
     );
   }
 
+  /**
+   * Retrieves all projects owned by a specific owner.
+   *
+   * @param {number} ownerId - The ID of the owner whose projects to retrieve.
+   * @returns {Promise<Project[]>} A promise that resolves to an array of projects owned by the specified owner.
+   */
   async getAllProjectsByOwner(ownerId: number): Promise<Project[]> {
     return await this.em.find(Project, { owner: { id: ownerId } }, { populate: ['currency', 'owner'] });
   }
 
+  /**
+   * Searches for projects by name.
+   *
+   * @param {string} search - The search string to match project names against.
+   * @returns {Promise<Project[]>} A promise that resolves to an array of projects that match the search string.
+   */
   async searchProjects(search: string): Promise<Project[]> {
     return await this.em.find(Project, { name: { $like: `%${search}%` } }, { populate: ['currency', 'owner'] });
   }
 
+  /**
+   * Retrieves all projects in which a specific user has invested.
+   *
+   * @param {number} userId - The ID of the user whose invested projects to retrieve.
+   * @returns {Promise<Project[]>} A promise that resolves to an array of projects in which the specified user has invested.
+   */
   async getAllInvestedProjects(userId: number): Promise<Project[]> {
     return await this.em.find(Project, { owner: { id: userId } }, { populate: ['currency', 'owner'] });
   }

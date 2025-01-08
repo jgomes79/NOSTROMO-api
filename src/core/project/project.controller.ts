@@ -105,29 +105,51 @@ export class ProjectController {
     return new ProjectsResponseDTO({ rows, count });
   }
 
+  /**
+   * Fetches all VIP projects.
+   * @returns A list of VIP project objects wrapped in a ProjectsResponseDTO.
+   */
   @Get('/projects/vip')
   async getAllVIPProjects() {
     const projects = await this.projectService.getAllVIPProjects();
     return new ProjectsResponseDTO({ rows: projects, count: projects.length });
   }
 
+  /**
+   * Votes for a project.
+   * @param data The data containing the vote information, validated against ProjectVoteDTO.
+   */
   @Post('/projects/vote')
   async voteForProject(@Body() data: ProjectVoteDTO) {
     console.log(data);
   }
 
+  /**
+   * Fetches all invested projects.
+   * @returns A list of invested project objects wrapped in a ProjectsResponseDTO.
+   */
   @Get('/projects/invested')
   async getAllInvestedProjects() {
     const projects = await this.projectService.getAllInvestedProjects(1);
     return new ProjectsResponseDTO({ rows: projects, count: projects.length });
   }
 
+  /**
+   * Searches for projects based on a search query.
+   * @param search The search query string.
+   * @returns A list of project objects matching the search query, wrapped in a ProjectsResponseDTO.
+   */
   @Get('/projects/search')
   async searchProjects(@Query('search') search: string) {
     const projects = await this.projectService.searchProjects(search);
     return new ProjectsResponseDTO({ rows: projects, count: projects.length });
   }
 
+  /**
+   * Fetches all projects by a specific owner.
+   * @param ownerId The ID of the owner whose projects are to be fetched.
+   * @returns A list of project objects owned by the specified owner, wrapped in a ProjectsResponseDTO.
+   */
   @Get('/projects/owner/:ownerId')
   async getAllProjectsByOwner(@Param('ownerId') ownerId: number) {
     const projects = await this.projectService.getAllProjectsByOwner(ownerId);

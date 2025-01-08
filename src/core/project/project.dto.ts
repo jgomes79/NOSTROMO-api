@@ -134,7 +134,15 @@ export class ProjectResponseDTO {
       cliff: project.cliff,
       vestingDays: project.vestingDays,
       createdAt: project.createdAt,
-      currency: project.currency
+      currency: project.currency,
+
+      social: {
+        instagramUrl: project.instagramUrl,
+        xUrl: project.xUrl,
+        discordUrl: project.discordUrl,
+        telegramUrl: project.telegramUrl,
+        mediumUrl: project.mediumUrl,
+      }
     });
   }
 }
