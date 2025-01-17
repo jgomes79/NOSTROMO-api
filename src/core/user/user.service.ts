@@ -6,7 +6,6 @@ import { User } from '@/core/user/user.entity';
 import { Tier } from '../tier/tier.entity';
 
 import { UserTypes } from './user.types';
-import { Project } from '../project/project.entity';
 
 @Injectable()
 export class UserService {

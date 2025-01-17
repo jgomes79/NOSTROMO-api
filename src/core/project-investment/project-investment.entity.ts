@@ -2,7 +2,7 @@ import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
 
 import { Project } from '../project/project.entity';
 
-@Entity({ tableName: 'projectInvestments' })
+@Entity({ tableName: 'project-investments' })
 export class ProjectInvestment {
   // Information
   @PrimaryKey()
@@ -10,6 +10,12 @@ export class ProjectInvestment {
   
   @Property({ type: 'double' })
   amount: number;
+
+  @Property()
+  createdAt: Date;
+
+  @Property()
+  updatedAt: Date;
 
   // Relationships
   @ManyToOne(() => Project, { fieldName: 'projectId' })

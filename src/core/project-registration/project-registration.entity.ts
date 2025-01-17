@@ -1,15 +1,21 @@
-import { Entity, PrimaryKey, ManyToOne } from '@mikro-orm/core';
+import { Entity, PrimaryKey, ManyToOne, Property } from '@mikro-orm/core';
 
 import { Project } from '../project/project.entity';
 import { User } from '../user/user.entity';
 
 @Entity({
-  tableName: 'projectRegistrations',
+  tableName: 'project-registrations',
 })
 export class ProjectRegistration {
   // Information
   @PrimaryKey()
   id: number;
+
+  @Property()
+  createdAt: Date;
+
+  @Property()
+  updatedAt: Date;
 
   // Relationships
   @ManyToOne(() => User, { fieldName: 'userId' })

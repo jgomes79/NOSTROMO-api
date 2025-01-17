@@ -5,7 +5,7 @@ import { Tier } from '@/core/tier/tier.entity';
 import { User } from '@/core/user/user.entity';
 
 @Entity({
-  tableName: 'projectVotes',
+  tableName: 'project-votes',
 })
 export class ProjectVote {
   // Information
@@ -14,6 +14,12 @@ export class ProjectVote {
   
   @Property({ type: 'boolean' })
   vote: boolean;
+
+  @Property()
+  createdAt: Date;
+
+  @Property()
+  updatedAt: Date;
   
   // Relationships
   @ManyToOne(() => User, { fieldName: 'userId' })

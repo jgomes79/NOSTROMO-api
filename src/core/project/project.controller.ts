@@ -15,7 +15,8 @@ import { ProjectRegistrationService } from '@/core/project-registration/project-
 import { ProjectVoteDTO } from '@/core/project-vote/project-vote.dto';
 import { ProjectVoteService } from '@/core/project-vote/project-vote.service';
 
-import { CreateProjectDTO, CreateProjectInvestmentDTO, EditProjectDTO, ProjectResponseDTO, ProjectsResponseDTO } from './project.dto';
+import { CreateProjectDTO, CreateProjectInvestmentDTO, EditProjectDTO, InitializeProjectRequestDTO, InitializeProjectResponseDTO, ProjectResponseDTO, ProjectsResponseDTO } from './project.dto';
+import { Project } from './project.entity';
 import { ProjectService } from './project.service';
 import { ProjectStates } from './project.types';
 
@@ -32,14 +33,25 @@ export class ProjectController {
     private readonly projectRegistrationService: ProjectRegistrationService,
   ) {}
 
+  @Post('/initialize')
+  async initializeProject(@Body() data: InitializeProjectRequestDTO) {
+    const project = await this.projectService.initializeProject(data.walletAddress);
+    return new InitializeProjectResponseDTO(project);
+  }
+
   /**
    * Fetches a project by its slug.
    * @param slug - The slug of the project to fetch.
    * @returns A promise that resolves to a project object.
    */
-  @Get('/project/:slug')
-  async getProject(@Param('slug') slug: string) {
-    const project = await this.projectService.getBySlug(slug);
+  @Get('/project/:slugOrId')
+  async getProject(@Param('slugOrId') slugOrId: string) {
+    let project: Project | null = null;
+    if (typeof slugOrId === 'string') {
+      project = await this.projectService.getBySlug(slugOrId);
+    } else {
+      project = await this.projectService.getById(Number(slugOrId));
+    }
     
     return new ProjectResponseDTO(project);
   }

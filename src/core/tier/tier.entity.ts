@@ -25,6 +25,12 @@ export class Tier {
   @Property()
   beneficts: string;
 
+  @Property()
+  createdAt: Date;
+
+  @Property()
+  updatedAt: Date;
+
   // Relationships
   @OneToMany(() => User, user => user.tier)
   users = new Collection<User>(this);

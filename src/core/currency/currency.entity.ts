@@ -16,11 +16,17 @@ export class Currency {
   @Property({ type: 'string' })
   chain: string;
 
-  @Property({ type: 'string' })
-  address: string;
+  @Property({ type: 'string', nullable: true })
+  address: string | null;
 
   @Property({ type: 'boolean', default: true})
   isActive: boolean;
+
+  @Property()
+  createdAt: Date;
+
+  @Property()
+  updatedAt: Date;
 
   // Relationships
   @OneToMany(() => Project, project => project.currency, { eager: true })

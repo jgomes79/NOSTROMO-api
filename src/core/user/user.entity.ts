@@ -17,6 +17,12 @@ export class User {
   @Property({ default: UserTypes.USER, type: 'string' })
   type: UserTypes;
 
+  @Property()
+  createdAt: Date;
+
+  @Property()
+  updatedAt: Date;
+
   // Relationships
   @ManyToOne(() => Tier, { fieldName: 'tierId' })
   tier: Tier;

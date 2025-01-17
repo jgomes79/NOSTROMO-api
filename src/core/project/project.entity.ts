@@ -1,6 +1,6 @@
-import { Entity, PrimaryKey, Property, ManyToOne, OneToMany, Collection } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, OneToMany, Collection } from '@mikro-orm/core';
 
-import { Currency } from '@/core/currency/currency.entity'; // Import Currency entity
+import { Currency } from '@/core/currency/currency.entity'; 
 import { User } from '@/core/user/user.entity';
 
 import { ProjectInvestment } from '../project-investment/project-investment.entity';
@@ -14,8 +14,8 @@ import { ProjectStates } from './project.types';
 })
 export class Project {
   // Information
-  @PrimaryKey()
-  id: number;
+  @Property({ type: 'number', autoincrement: true, primary: true })
+  id!: number;
 
   @Property({ default: ProjectStates.DRAFT })
   state: ProjectStates;
@@ -26,86 +26,89 @@ export class Project {
   @Property()
   slug: string;
 
-  @Property({ type: 'text' })
-  description: string;
+  @Property({ type: 'text', default: null, nullable: true })
+  description: string | null;
 
-  @Property()
-  photoUrl: string;
+  @Property({ type: 'text', default: null, nullable: true })
+  photoUrl: string | null;
 
-  @Property()
-  bannerUrl: string;
+  @Property({ type: 'text', default: null, nullable: true })
+  bannerUrl: string | null;
 
-  @Property({ default: false })
+  @Property({ type: 'boolean', default: false })
   vip: boolean;
 
   // Project documents
-  @Property()
-  whitepaperUrl: string;
+  @Property({ type: 'text', default: null, nullable: true })
+  whitepaperUrl: string | null;
 
-  @Property()
-  litepaperUrl: string;
+  @Property({ type: 'text', default: null, nullable: true })
+  litepaperUrl: string | null;
 
-  @Property()
-  tokenomicsUrl: string;
+  @Property({ type: 'text', default: null, nullable: true })
+  tokenomicsUrl: string | null;
 
   // Project comments
-  @Property()
+  @Property({ type: 'text', default: null, nullable: true })
   comments: string;
 
   // Raising funds information
-  @Property({ type: 'decimal' })
-  amountToRaise: number;
+  @Property({ type: 'decimal', default: null, nullable: true })
+  amountToRaise: number | null;
 
-  @Property({ type: 'decimal' })
-  threshold: number;
+  @Property({ type: 'decimal', default: null, nullable: true })
+  threshold: number | null;
 
-  @Property({ type: 'date' })
-  startDate: Date;
+  @Property({ type: 'date', default: null, nullable: true })
+  startDate: Date | null;
 
   // Token Information
-  @Property({ type: 'double' })
-  tokensSupply: number;
+  @Property({ type: 'number', default: null, nullable: true })
+  tokensSupply: number | null;
 
-  @Property({ type: 'double' })
-  tokensForSale: number;
+  @Property({ type: 'number', default: null, nullable: true })
+  tokensForSale: number | null;
 
-  @Property()
+  @Property({ type: 'text', default: null, nullable: true })
   tokenName: string;
 
-  @Property()
-  tokenDecimals: number;
+  @Property({ type: 'number', default: null, nullable: true })
+  tokenDecimals: number | null;
 
   // Vesting Information
-  @Property({ type: 'date' })
+  @Property({ type: 'date', default: null, nullable: true })
   TGEDate: Date;
 
-  @Property()
-  unlockTokensTGE: number;
+  @Property({ type: 'double', default: null, nullable: true })
+  unlockTokensTGE: number | null;
 
-  @Property()
-  cliff: number;
+  @Property({ type: 'double', default: null, nullable: true })
+  cliff: number | null;
 
-  @Property()
-  vestingDays: number;
+  @Property({ type: 'double', default: null, nullable: true })
+  vestingDays: number | null;
 
   // Social Networks
-  @Property()
-  instagramUrl: string;
+  @Property({ type: 'text', default: null, nullable: true })
+  instagramUrl: string | null;
+
+  @Property({ type: 'text', default: null, nullable: true })
+  xUrl: string | null;
+
+  @Property({ type: 'text', default: null, nullable: true })
+  discordUrl: string | null;
+
+  @Property({ type: 'text', default: null, nullable: true })
+  telegramUrl: string | null;
+
+  @Property({ type: 'text', default: null, nullable: true })
+  mediumUrl: string | null;
 
   @Property()
-  xUrl: string;
-
-  @Property()
-  discordUrl: string;
-
-  @Property()
-  telegramUrl: string;
-
-  @Property()
-  mediumUrl: string;
-
-  @Property({ type: 'date' })
   createdAt: Date;
+
+  @Property()
+  updatedAt: Date;
 
   // Relationships
   @ManyToOne(() => User, { fieldName: 'ownerId' })

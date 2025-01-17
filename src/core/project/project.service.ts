@@ -1,6 +1,9 @@
 import { EntityManager } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
+import { Currency } from '../currency/currency.entity';
+import { User } from '../user/user.entity';
+
 import { Project } from './project.entity';
 import { ProjectStates } from './project.types';
 
@@ -16,6 +19,38 @@ export class ProjectService {
    */
   async getById(id: number): Promise<Project> {
     return await this.em.findOne(Project, { id });
+  }
+
+  /**
+   * Initializes a new project with default values.
+   *
+   * @param {string} walletAddress - The wallet address of the project's owner.
+   * @returns {Promise<Project>} A promise that resolves to the newly created project.
+   */
+  async initializeProject(walletAddress: string): Promise<Project> {
+    const owner = await this.em.findOne(User, { wallet: walletAddress });
+    
+    if (!owner) {
+      throw new Error('Owner not found');
+    }
+
+    const currency = await this.em.findOne(Currency, { id: 1 });
+    if (!currency) {
+      throw new Error('Currency not found');
+    }
+
+    const project = new Project();
+    project.name = 'Untitled';
+    project.slug = 'untitled';
+    project.state = ProjectStates.DRAFT;
+    project.owner = owner;
+    project.currency = currency;
+    project.createdAt = new Date();
+    project.updatedAt = new Date();
+
+    await this.em.persistAndFlush(project);
+    
+    return project;
   }
 
   /**

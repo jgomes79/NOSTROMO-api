@@ -9,6 +9,39 @@ import { Project } from './project.entity';
 import { ProjectStates } from './project.types';
 
 /**
+ * Data Transfer Object for initializing a project.
+ * This class is responsible for handling the output data when a project is initialized.
+ */
+export class InitializeProjectResponseDTO {
+  /**
+   * The ID of the project.
+   */
+  @IsNumber()
+  id: Project['id'];
+
+  /**
+   * Constructor to create an instance of InitializeProjectDTO.
+   * @param project - The project entity to initialize the DTO with.
+   */
+  constructor(project: Project) {
+    this.id = project.id;
+  }
+}
+
+/**
+ * Data Transfer Object for initializing a project request.
+ * This class is responsible for handling the input data when a project is initialized.
+ */
+export class InitializeProjectRequestDTO {
+  /**
+   * The wallet address associated with the project.
+   */
+  @IsString()
+  @IsNotEmpty()
+  walletAddress: string;
+}
+
+/**
  * Represents the data transfer object for creating a project.
  * This class is responsible for handling the input data when a new project is created.
  * It includes validations to ensure that the data received is in the correct format.
