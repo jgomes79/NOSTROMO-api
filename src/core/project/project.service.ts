@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { EntityManager } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
@@ -41,7 +42,7 @@ export class ProjectService {
 
     const project = new Project();
     project.name = 'Untitled';
-    project.slug = 'untitled';
+    project.slug = faker.git.branch();
     project.state = ProjectStates.DRAFT;
     project.owner = owner;
     project.currency = currency;

@@ -14,17 +14,17 @@ import { ProjectStates } from './project.types';
  */
 export class InitializeProjectResponseDTO {
   /**
-   * The ID of the project.
+   * The slug of the project.
    */
-  @IsNumber()
-  id: Project['id'];
+  @IsString()
+  slug: Project['slug'];
 
   /**
    * Constructor to create an instance of InitializeProjectDTO.
    * @param project - The project entity to initialize the DTO with.
    */
   constructor(project: Project) {
-    this.id = project.id;
+    this.slug = project.slug;
   }
 }
 
