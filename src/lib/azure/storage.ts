@@ -20,7 +20,7 @@ export class AzureStorageService {
 
     const extension = file.originalname.split('.').pop();
     const randomString = uuidv4();
-    const name = `${randomString}${extension}`;
+    const name = `${randomString}.${extension}`;
 
     const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
     const containerClient = blobServiceClient.getContainerClient(containerName);
