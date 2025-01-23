@@ -1,6 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MulterModule } from '@nestjs/platform-express';
 
 import { CurrencyModule } from '@/core/currency/currency.module';
 import { ProjectModule } from '@/core/project/project.module';
@@ -17,6 +18,9 @@ import mikroOrmConfig, { entities } from './mikro-orm.config';
     ConfigModule.forRoot(),
     MikroOrmModule.forRoot(mikroOrmConfig),
     MikroOrmModule.forFeature(entities),
+    MulterModule.register({
+      dest: './files',
+    }),
 
     ProjectModule,
     ProjectInvestmentModule,

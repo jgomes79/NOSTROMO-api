@@ -9,103 +9,147 @@ import { Project } from './project.entity';
 import { ProjectStates } from './project.types';
 
 /**
- * Data Transfer Object for initializing a project.
- * This class is responsible for handling the output data when a project is initialized.
+ * Data Transfer Object for creating or editing a project.
  */
-export class InitializeProjectResponseDTO {
+export class CreateOrEditProjectDTO {
   /**
-   * The slug of the project.
+   * The name of the project.
    */
-  @IsString()
-  slug: Project['slug'];
-
-  /**
-   * Constructor to create an instance of InitializeProjectDTO.
-   * @param project - The project entity to initialize the DTO with.
-   */
-  constructor(project: Project) {
-    this.slug = project.slug;
-  }
-}
-
-/**
- * Data Transfer Object for initializing a project request.
- * This class is responsible for handling the input data when a project is initialized.
- */
-export class InitializeProjectRequestDTO {
-  /**
-   * The wallet address associated with the project.
-   */
-  @IsString()
-  @IsNotEmpty()
-  walletAddress: string;
-}
-
-/**
- * Represents the data transfer object for creating a project.
- * This class is responsible for handling the input data when a new project is created.
- * It includes validations to ensure that the data received is in the correct format.
- */
-export class CreateProjectDTO {
   @IsString()
   @IsNotEmpty()
   name: string;
 
+  /**
+   * The description of the project.
+   */
   @IsString()
   description: string;
 
+  /**
+   * The photo file of the project.
+   */
   @IsFile({ mimeTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'] })
   @Type(() => File)
   photo: File;
 
+  /**
+   * The banner file of the project.
+   */
   @IsFile({ mimeTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'] })
   @Type(() => File)
   banner: File;
 
+  /**
+   * The whitepaper file of the project.
+   */
   @IsFile({ mimeTypes: ['application/pdf'] })
   @Type(() => File)
   whitepaper: File;
 
+  /**
+   * The litepaper file of the project.
+   */
   @IsFile({ mimeTypes: ['application/pdf'] })
   @Type(() => File)
   litepaper: File;
 
+  /**
+   * The tokenomics file of the project.
+   */
   @IsFile({ mimeTypes: ['application/pdf'] })
   @Type(() => File)
   tokenomics: File;
 
-  @IsNumber()
-  tokensCreated: number;
+  /**
+   * The name of the token.
+   */
+  @IsString()
+  tokenName: string;
 
+  /**
+   * The image file of the token.
+   */
+  @IsFile({ mimeTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'] })
+  @Type(() => File)
+  tokenImage: File;
+
+  /**
+   * The price of the token.
+   */
   @IsNumber()
   tokenPrice: number;
 
+  /**
+   * The total supply of tokens.
+   */
   @IsNumber()
-  amountToRise: number;
+  tokensSupply: number;
 
+  /**
+   * The number of decimals for the token.
+   */
+  @IsNumber()
+  tokenDecimals: number;
+
+  /**
+   * The amount to raise for the project.
+   */
+  @IsNumber()
+  amountToRaise: number;
+
+  /**
+   * The number of tokens available for sale.
+   */
+  @IsNumber()
+  tokensForSale: number;
+
+  /**
+   * The Instagram URL of the project.
+   */
   @IsUrl()
   instagramUrl: string;
 
+  /**
+   * The Discord URL of the project.
+   */
+  @IsUrl()
+  discordUrl: string;
+
+  /**
+   * The X (formerly Twitter) URL of the project.
+   */
   @IsUrl()
   xUrl: string;
 
+  /**
+   * The Medium URL of the project.
+   */
+  @IsUrl()
+  mediumUrl: string;
+
+  /**
+   * The Telegram URL of the project.
+   */
   @IsUrl()
   telegramUrl: string;
 
-  @IsUrl()
-  mediumUrl: string;
-}
+  /**
+   * The Token Generation Event (TGE) date.
+   */
+  @Type(() => Date)
+  TGEDate: Date;
 
-/**
- * Data Transfer Object for editing a project.
- */
-export class EditProjectDTO {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
+  /**
+   * The cliff period in days.
+   */
+  @IsNumber()
+  cliff: number;
 
-  @IsString()
-  description: string;
+  /**
+   * The vesting period in days.
+   */
+  @IsNumber()
+  vestingDays: number;
 }
 
 export class CreateProjectInvestmentDTO {

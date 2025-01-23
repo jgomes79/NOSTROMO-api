@@ -1,10 +1,7 @@
-import { faker } from '@faker-js/faker';
 import { EntityManager } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
-import { Currency } from '../currency/currency.entity';
-import { User } from '../user/user.entity';
-
+import { CreateOrEditProjectDTO } from './project.dto';
 import { Project } from './project.entity';
 import { ProjectStates } from './project.types';
 
@@ -28,30 +25,34 @@ export class ProjectService {
    * @param {string} walletAddress - The wallet address of the project's owner.
    * @returns {Promise<Project>} A promise that resolves to the newly created project.
    */
-  async initializeProject(walletAddress: string): Promise<Project> {
-    const owner = await this.em.findOne(User, { wallet: walletAddress });
+  async createOrEditProject(project: CreateOrEditProjectDTO) {
+
+    console.log('createOrEditProject', project);
     
-    if (!owner) {
-      throw new Error('Owner not found');
-    }
-
-    const currency = await this.em.findOne(Currency, { id: 1 });
-    if (!currency) {
-      throw new Error('Currency not found');
-    }
-
-    const project = new Project();
-    project.name = 'Untitled';
-    project.slug = faker.git.branch();
-    project.state = ProjectStates.DRAFT;
-    project.owner = owner;
-    project.currency = currency;
-    project.createdAt = new Date();
-    project.updatedAt = new Date();
-
-    await this.em.persistAndFlush(project);
+    return {};
+    // const owner = await this.em.findOne(User, { wallet: "0x38886488200432ab0Ae3a6d26cDC16928C2AF7Ed" });
     
-    return project;
+    // if (!owner) {
+    //   throw new Error('Owner not found');
+    // }
+
+    // const currency = await this.em.findOne(Currency, { id: 1 });
+    // if (!currency) {
+    //   throw new Error('Currency not found');
+    // }
+
+    // const project = new Project();
+    // project.name = 'Untitled';
+    // project.slug = faker.git.branch();
+    // project.state = ProjectStates.DRAFT;
+    // project.owner = owner;
+    // project.currency = currency;
+    // project.createdAt = new Date();
+    // project.updatedAt = new Date();
+
+    // await this.em.persistAndFlush(project);
+    
+    // return project;
   }
 
   /**

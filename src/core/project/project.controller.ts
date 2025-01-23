@@ -7,7 +7,10 @@ import {
   Post,
   Body,
   Patch,
+  UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ProjectInvestmentService } from '@/core/project-investment/project-investment.service';
@@ -15,7 +18,7 @@ import { ProjectRegistrationService } from '@/core/project-registration/project-
 import { ProjectVoteDTO } from '@/core/project-vote/project-vote.dto';
 import { ProjectVoteService } from '@/core/project-vote/project-vote.service';
 
-import { CreateProjectDTO, CreateProjectInvestmentDTO, EditProjectDTO, InitializeProjectRequestDTO, InitializeProjectResponseDTO, ProjectResponseDTO, ProjectsResponseDTO } from './project.dto';
+import { CreateOrEditProjectDTO, CreateProjectInvestmentDTO, ProjectResponseDTO, ProjectsResponseDTO } from './project.dto';
 import { ProjectService } from './project.service';
 import { ProjectStates } from './project.types';
 
@@ -31,12 +34,6 @@ export class ProjectController {
     private readonly projectVoteService: ProjectVoteService,
     private readonly projectRegistrationService: ProjectRegistrationService,
   ) {}
-
-  @Post('/initialize')
-  async initializeProject(@Body() data: InitializeProjectRequestDTO) {
-    const project = await this.projectService.initializeProject(data.walletAddress);
-    return new InitializeProjectResponseDTO(project);
-  }
 
   /**
    * Fetches a project by its slug.
@@ -64,22 +61,12 @@ export class ProjectController {
   }
 
   /**
-   * Creates a new project with the provided data.
-   * @param data - The data to create the project with, validated against CreateProjectDTO.
-   * @returns A promise that resolves to a partial project object.
-   */
-  @Post('/projects/create')
-  async createProject(@Body() data: CreateProjectDTO) {
-    console.log(data);
-  }
-
-  /**
    * Edits a project by its ID.
    * @param data The data to update the project with.
    * @returns A partial project object.
    */
   @Patch('/project/:projectId')
-  async editProject(@Body() data: EditProjectDTO) {
+  async editProject(@Body() data: CreateOrEditProjectDTO) {
     console.log(data);
     return {};
   }
@@ -109,6 +96,27 @@ export class ProjectController {
   ) {
     const { rows, count } = await this.projectService.getAllProjects(state, page, limit);
     return new ProjectsResponseDTO({ rows, count });
+  }
+
+  /**
+   * Creates a new project with the provided data and files.
+   * @param body - The data for creating or editing the project, validated against CreateOrEditProjectDTO.
+   * @param files - The files associated with the project, such as photo, banner, tokenImage, litepaper, tokenomics, and whitepaper.
+   */
+  @Post('/projects/create')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'photo', maxCount: 1 },
+    { name: 'banner', maxCount: 1 },
+    { name: 'tokenImage', maxCount: 1 },
+    { name: 'litepaper', maxCount: 1 },
+    { name: 'tokenomics', maxCount: 1 },
+    { name: 'whitepaper', maxCount: 1 },
+  ]))
+  async createProject(
+    @Body() body: CreateOrEditProjectDTO,
+    @UploadedFiles() files: { [fieldname: string]: Express.Multer.File[] },
+  ) {
+    console.log(files, body);
   }
 
   /**

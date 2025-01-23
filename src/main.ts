@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
+import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
 import * as dotenv from 'dotenv';
@@ -25,6 +26,10 @@ async function bootstrap() {
   app.use((req: Request, res: Response, next: NextFunction) => {
     csrfMiddleware(req, res, next, csrf);
   });
+
+  // Body parser for form data
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
 
   // Swagger setup for development environment
   if (process.env.NODE_ENV === 'development') {
