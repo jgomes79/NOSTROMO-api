@@ -6,7 +6,6 @@ import {
   Query,
   Post,
   Body,
-  Patch,
   UseInterceptors,
   UploadedFiles,
 } from '@nestjs/common';
@@ -20,7 +19,7 @@ import { ProjectVoteService } from '@/core/project-vote/project-vote.service';
 
 import { CreateOrEditProjectDTO, CreateProjectInvestmentDTO, ProjectResponseDTO, ProjectsResponseDTO } from './project.dto';
 import { ProjectService } from './project.service';
-import { ProjectStates } from './project.types';
+import { ProjectFiles, ProjectStates } from './project.types';
 
 /**
  * Controller for handling project-related HTTP requests.
@@ -102,7 +101,7 @@ export class ProjectController {
   ]))
   async createProject(
     @Body() body: CreateOrEditProjectDTO,
-    @UploadedFiles() files: { [fieldname: string]: Express.Multer.File[] },
+    @UploadedFiles() files: ProjectFiles
   ) {
     const project = await this.projectService.createProject(body, files);
     return new ProjectResponseDTO(project);
@@ -127,7 +126,7 @@ export class ProjectController {
   async updateProject(
     @Param('projectId') projectId: number,
     @Body() body: CreateOrEditProjectDTO,
-    @UploadedFiles() files: { [fieldname: string]: Express.Multer.File[] },
+    @UploadedFiles() files: ProjectFiles
   ) {
     const project = await this.projectService.updateProject(projectId, body, files);
     return new ProjectResponseDTO(project);

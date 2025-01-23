@@ -1,16 +1,18 @@
 import { EntityManager } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
+import { AzureStorageService } from '@/lib/azure/storage';
+
 import { Currency } from '../currency/currency.entity';
 import { User } from '../user/user.entity';
 
 import { CreateOrEditProjectDTO } from './project.dto';
 import { Project } from './project.entity';
-import { ProjectStates } from './project.types';
+import { ProjectFiles, ProjectStates } from './project.types';
 
 @Injectable()
 export class ProjectService {
-  constructor(private readonly em: EntityManager) {}
+  constructor(private readonly em: EntityManager, private readonly azureStorageService: AzureStorageService) {}
 
   /**
    * Retrieves a Project by its ID.
@@ -23,6 +25,48 @@ export class ProjectService {
   }
 
   /**
+   * Updates the files associated with a project by uploading them to Azure Storage
+   * and updating the project's file URLs.
+   *
+   * @param {Project} project - The project entity to update with new file URLs.
+   * @param {ProjectFiles} files - An object containing the files to be uploaded, such as photo, banner, tokenImage, litepaper, tokenomics, and whitepaper.
+   * @returns {Promise<Project>} A promise that resolves to the updated project with new file URLs.
+   */
+  async updateProjectFiles(project: Project, files: ProjectFiles): Promise<Project> {
+    const photo = files.photo?.[0] ?? undefined;
+    const banner = files.banner?.[0] ?? undefined;
+    const tokenImage = files.tokenImage?.[0] ?? undefined;
+    const litepaper = files.litepaper?.[0] ?? undefined;
+    const tokenomics = files.tokenomics?.[0] ?? undefined;
+    const whitepaper = files.whitepaper?.[0] ?? undefined;
+
+    const fileUploadPromises = [];
+
+    if (photo) {
+        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(photo).then(url => project.photoUrl = url));
+    }
+    if (banner) {
+        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(banner).then(url => project.bannerUrl = url));
+    }
+    if (tokenImage) {
+        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(tokenImage).then(url => project.tokenImageUrl = url));
+    }
+    if (litepaper) {
+        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(litepaper).then(url => project.litepaperUrl = url));
+    }
+    if (tokenomics) {
+        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(tokenomics).then(url => project.tokenomicsUrl = url));
+    }
+    if (whitepaper) {
+        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(whitepaper).then(url => project.whitepaperUrl = url));
+    }
+
+    await Promise.all(fileUploadPromises);
+
+    return project;
+  } 
+
+  /**
    * Creates a new project with the provided data and initializes it with default values.
    *
    * @param {CreateOrEditProjectDTO} data - The data transfer object containing the project's details.
@@ -30,7 +74,7 @@ export class ProjectService {
    * @returns {Promise<Project | null>} A promise that resolves to the newly created project or null if creation fails.
    * @throws Will throw an error if the project owner or currency is not found.
    */
-  async createProject(data: CreateOrEditProjectDTO, files: { [fieldname: string]: Express.Multer.File[] }): Promise<Project | null> {
+  async createProject(data: CreateOrEditProjectDTO, files: ProjectFiles): Promise<Project | null> {
     const owner = await this.em.findOne(User, { wallet: data.walletAddress });
     if (!owner) {
       throw new Error('Owner not found');
@@ -41,7 +85,10 @@ export class ProjectService {
       throw new Error('Currency not found');
     }
 
-    const project = new Project();
+    let project = new Project();
+
+    // Set basic project information
+    project = await this.updateProjectFiles(project, files);
 
     // Set basic project information
     project.name = data.name;
@@ -95,11 +142,14 @@ export class ProjectService {
    * @returns {Promise<Project | null>} A promise that resolves to the updated project or null if the project is not found.
    * @throws Will throw an error if the project is not found.
    */
-  async updateProject(projectId: number, data: CreateOrEditProjectDTO, files: { [fieldname: string]: Express.Multer.File[] }): Promise<Project | null> {
-    const project = await this.getById(projectId);
+  async updateProject(projectId: number, data: CreateOrEditProjectDTO, files: ProjectFiles): Promise<Project | null> {
+    let project = await this.getById(projectId);
     if (!project) {
       throw new Error('Project not found');
     }
+
+    // Set basic project information
+    project = await this.updateProjectFiles(project, files);
 
     // Update project information
     project.name = data.name;

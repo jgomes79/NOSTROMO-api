@@ -1,5 +1,3 @@
-import * as path from 'path';
-
 import { BlobServiceClient } from '@azure/storage-blob';
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,7 +13,12 @@ export class AzureStorageService {
       throw new Error('Azure Storage connection string or container name is not configured.');
     }
 
-    const extension = path.extname(file.filename);
+    // Check if file and originalname are defined
+    if (!file || !file.originalname) {
+      throw new Error('File or file name is not provided.');
+    }
+
+    const extension = file.originalname.split('.').pop();
     const randomString = uuidv4();
     const name = `${randomString}${extension}`;
 

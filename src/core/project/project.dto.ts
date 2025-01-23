@@ -196,6 +196,7 @@ export class ProjectResponseDTO {
   description: string;
   photoUrl: string;
   bannerUrl: string;
+  tokenImageUrl: string;
   whitepaperUrl: string;
   litepaperUrl: string;
   tokenomicsUrl: string;
@@ -225,6 +226,7 @@ export class ProjectResponseDTO {
       description: project.description,
       photoUrl: project.photoUrl,
       bannerUrl: project.bannerUrl,
+      tokenImageUrl: project.tokenImageUrl,
       whitepaperUrl: project.whitepaperUrl,
       litepaperUrl: project.litepaperUrl,
       tokenomicsUrl: project.tokenomicsUrl,

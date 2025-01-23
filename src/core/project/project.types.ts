@@ -52,3 +52,38 @@ export enum ProjectStates {
    */
   FAILED = 9
 }
+
+/**
+ * Represents the files associated with a project.
+ */
+export type ProjectFiles = {
+  /**
+   * The photo file associated with the project.
+   */
+  photo: Express.Multer.File[];
+
+  /**
+   * The banner file associated with the project.
+   */
+  banner: Express.Multer.File[];
+
+  /**
+   * The token image file associated with the project.
+   */
+  tokenImage: Express.Multer.File[];
+
+  /**
+   * The litepaper file associated with the project.
+   */
+  litepaper: Express.Multer.File[];
+
+  /**
+   * The tokenomics file associated with the project.
+   */
+  tokenomics: Express.Multer.File[];
+
+  /**
+   * The whitepaper file associated with the project.
+   */
+  whitepaper: Express.Multer.File[];
+};

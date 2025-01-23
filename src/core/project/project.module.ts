@@ -1,6 +1,8 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 
+import { AzureStorageService } from '@/lib/azure/storage';
+
 import { ProjectInvestmentService } from '../project-investment/project-investment.service';
 import { ProjectRegistrationService } from '../project-registration/project-registration.service';
 import { ProjectVoteService } from '../project-vote/project-vote.service';
@@ -17,7 +19,7 @@ import { ProjectService } from './project.service';
     MikroOrmModule.forFeature({ entities: [Project] }),
   ],
   controllers: [ProjectController],
-  providers: [ProjectService, ProjectInvestmentService, ProjectRegistrationService, ProjectVoteService],
+  providers: [ProjectService, ProjectInvestmentService, ProjectRegistrationService, ProjectVoteService, AzureStorageService],
 })
 export class ProjectModule {}
 

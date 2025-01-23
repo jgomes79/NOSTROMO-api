@@ -35,6 +35,9 @@ export class Project {
   @Property({ type: 'text', default: null, nullable: true })
   bannerUrl: string | null;
 
+  @Property({ type: 'text', default: null, nullable: true })
+  tokenImageUrl: string | null;
+
   @Property({ type: 'boolean', default: false })
   vip: boolean;
 
