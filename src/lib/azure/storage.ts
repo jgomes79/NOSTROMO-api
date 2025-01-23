@@ -15,7 +15,7 @@ export class AzureStorageService {
       throw new Error('Azure Storage connection string or container name is not configured.');
     }
 
-    const extension = path.extname(file.originalname);
+    const extension = path.extname(file.filename);
     const randomString = uuidv4();
     const name = `${randomString}${extension}`;
 
