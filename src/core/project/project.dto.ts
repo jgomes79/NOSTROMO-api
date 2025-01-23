@@ -20,6 +20,13 @@ export class CreateOrEditProjectDTO {
   name: string;
 
   /**
+   * The slug of the project.
+   */
+  @IsString()
+  @IsNotEmpty()
+  slug: string;
+
+  /**
    * The description of the project.
    */
   @IsString()
@@ -104,6 +111,12 @@ export class CreateOrEditProjectDTO {
   tokensForSale: number;
 
   /**
+   * The number of tokens to unlock at TGE.
+   */
+  @IsNumber()
+  unlockTokensTGE: number;
+
+  /**
    * The Instagram URL of the project.
    */
   @IsUrl()
@@ -150,6 +163,24 @@ export class CreateOrEditProjectDTO {
    */
   @IsNumber()
   vestingDays: number;
+
+  /**
+   * The start date of the project.
+   */
+  @Type(() => Date)
+  startDate: Date;
+
+  /**
+   * The wallet address of the project owner.
+   */
+  @IsString()
+  walletAddress: string;
+
+  /**
+   * The threshold of the project.
+   */
+  @IsNumber()
+  threshold: number;
 }
 
 export class CreateProjectInvestmentDTO {

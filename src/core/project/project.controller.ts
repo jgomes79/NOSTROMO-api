@@ -59,18 +59,6 @@ export class ProjectController {
     await this.projectInvestmentService.getById(projectId);
     return {};
   }
-
-  /**
-   * Edits a project by its ID.
-   * @param data The data to update the project with.
-   * @returns A partial project object.
-   */
-  @Patch('/project/:projectId')
-  async editProject(@Body() data: CreateOrEditProjectDTO) {
-    console.log(data);
-    return {};
-  }
-
   /**
    * Deletes a project by its ID.
    * @param projectId The ID of the project to delete.
@@ -116,7 +104,33 @@ export class ProjectController {
     @Body() body: CreateOrEditProjectDTO,
     @UploadedFiles() files: { [fieldname: string]: Express.Multer.File[] },
   ) {
-    console.log(files, body);
+    const project = await this.projectService.createProject(body, files);
+    return new ProjectResponseDTO(project);
+  }
+
+  /**
+   * Updates an existing project with the provided data and files.
+   * @param projectId - The ID of the project to update.
+   * @param body - The data for updating the project, validated against CreateOrEditProjectDTO.
+   * @param files - The files associated with the project, such as photo, banner, tokenImage, litepaper, tokenomics, and whitepaper.
+   * @returns A ProjectResponseDTO containing the updated project details.
+   */
+  @Post('/projects/:projectId/update')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'photo', maxCount: 1 },
+    { name: 'banner', maxCount: 1 },
+    { name: 'tokenImage', maxCount: 1 },
+    { name: 'litepaper', maxCount: 1 },
+    { name: 'tokenomics', maxCount: 1 },
+    { name: 'whitepaper', maxCount: 1 },
+  ]))
+  async updateProject(
+    @Param('projectId') projectId: number,
+    @Body() body: CreateOrEditProjectDTO,
+    @UploadedFiles() files: { [fieldname: string]: Express.Multer.File[] },
+  ) {
+    const project = await this.projectService.updateProject(projectId, body, files);
+    return new ProjectResponseDTO(project);
   }
 
   /**
