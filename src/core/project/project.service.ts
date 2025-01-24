@@ -264,4 +264,22 @@ export class ProjectService {
   async getAllInvestedProjects(userId: number): Promise<Project[]> {
     return await this.em.find(Project, { owner: { id: userId } }, { populate: ['currency', 'owner'] });
   }
+
+  async publishProject(projectId: number): Promise<Project> {
+    const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
+    project.state = ProjectStates.SENT_TO_REVIEW;
+    await this.em.persistAndFlush(project);
+
+    return project;
+  }
+
+  async reviewProject(projectId: number, response: number, comments: string): Promise<Project> {
+    // response: 0 - rejected, 1 - approved, 2 - more info needed
+    const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
+    project.state = response == 2 ? ProjectStates.REQUEST_MORE_INFO : response == 1 ? ProjectStates.READY_TO_VOTE : ProjectStates.REJECTED;
+    response == 2 ? project.comments = comments : null;
+    await this.em.persistAndFlush(project);
+
+    return project;
+  }
 }

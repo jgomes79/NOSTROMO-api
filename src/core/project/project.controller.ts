@@ -17,7 +17,7 @@ import { ProjectRegistrationService } from '@/core/project-registration/project-
 import { ProjectVoteDTO } from '@/core/project-vote/project-vote.dto';
 import { ProjectVoteService } from '@/core/project-vote/project-vote.service';
 
-import { CreateOrEditProjectDTO, CreateProjectInvestmentDTO, ProjectResponseDTO, ProjectsResponseDTO } from './project.dto';
+import { CreateOrEditProjectDTO, CreateProjectInvestmentDTO, ProjectResponseDTO, ProjectsResponseDTO, ReviewProjectRequestDTO } from './project.dto';
 import { ProjectService } from './project.service';
 import { ProjectFiles, ProjectStates } from './project.types';
 
@@ -181,5 +181,17 @@ export class ProjectController {
   async getAllProjectsByOwner(@Param('ownerId') ownerId: number) {
     const projects = await this.projectService.getAllProjectsByOwner(ownerId);
     return new ProjectsResponseDTO({ rows: projects, count: projects.length });
+  }
+
+  @Post('/projects/:projectId/publish')
+  async publishProject(@Param('projectId') projectId: number) {
+    const project = await this.projectService.publishProject(projectId);
+    return new ProjectResponseDTO(project);
+  }
+
+  @Post('/projects/:projectId/review')
+  async reviewProject(@Param('projectId') projectId: number, @Body() body: ReviewProjectRequestDTO) {
+    const project = await this.projectService.reviewProject(projectId, body.response, body.comments);
+    return new ProjectResponseDTO(project);
   }
 }

@@ -285,3 +285,8 @@ export class ProjectsResponseDTO {
     this.count = projects.count;
   }
 }
+
+export class ReviewProjectRequestDTO {
+  response: number;
+  comments: string;
+}
