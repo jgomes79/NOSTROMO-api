@@ -265,6 +265,42 @@ export class ProjectService {
     return await this.em.find(Project, { owner: { id: userId } }, { populate: ['currency', 'owner'] });
   }
 
+  /**
+   * Retrieves all projects owned by a specific wallet address with optional state filter and pagination.
+   *
+   * @param {Project['owner']['wallet']} walletAddress - The blockchain wallet address of the project owner
+   * @param {(Project['state'] | 'all')} [state] - Optional project state filter. Use 'all' to retrieve projects in any state
+   * @param {number} [page=0] - Zero-based page number for pagination
+   * @param {number} [limit=10] - Maximum number of projects to return per page
+   * @returns {Promise<{ rows: Project[]; count: number }>} Object containing paginated projects and total count
+   * @throws {Error} If the database query fails
+   */
+  async getAllProjectsByWallet(
+    walletAddress: Project['owner']['wallet'],
+    state?: Project['state'] | 'all',
+    page: number = 0,
+    limit: number = 10
+  ): Promise<{ rows: Project[]; count: number }> {
+    const where = { owner: { wallet: walletAddress } };
+
+    if (state !== undefined && state !== 'all') {
+      where['state'] = state;
+    }
+
+    const [rows, count] = await this.em.findAndCount(
+      Project,
+      where,
+      {
+        limit,
+        offset: page * limit,
+        orderBy: { id: 'DESC' },
+        populate: ['currency', 'owner']
+      }
+    );
+
+    return { rows, count };
+  }
+
   async publishProject(projectId: number): Promise<Project> {
     const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
     project.state = ProjectStates.SENT_TO_REVIEW;

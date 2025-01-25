@@ -182,6 +182,25 @@ export class ProjectController {
     const projects = await this.projectService.getAllProjectsByOwner(ownerId);
     return new ProjectsResponseDTO({ rows: projects, count: projects.length });
   }
+  
+    /**
+   * Fetches all projects by a specific owner.
+   * @param walletAddress The wallet address whose projects are to be fetched.
+   * @param state The state of the projects to fetch.
+   * @param page The page number for pagination.
+   * @param limit The number of projects per page.
+   * @returns A list of project objects owned by the specified wallet, wrapped in a ProjectsResponseDTO.
+   */
+  @Get('/projects/wallet/:walletAddress')
+  async getAllProjectsByWallet(
+    @Param('walletAddress') walletAddress: string,
+    @Query('state') state: ProjectStates | 'all',
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10
+  ) {
+    const projects = await this.projectService.getAllProjectsByWallet(walletAddress, state, page, limit);
+    return new ProjectsResponseDTO({ rows: projects.rows, count: projects.count });
+  }
 
   @Post('/projects/:projectId/publish')
   async publishProject(@Param('projectId') projectId: number) {
