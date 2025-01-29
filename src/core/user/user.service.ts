@@ -38,18 +38,34 @@ export class UserService {
    * @returns {Promise<User>} A promise that resolves to the newly registered user.
    */
   async register(signature: string): Promise<User> {
-    const wallet = signature;
-    const user = this.em.create(User, {
-      wallet,
-      type: UserTypes.USER,
-      tier: null
-    });
+    const user = new User();
+    user.wallet = signature;
+    user.type = UserTypes.USER;
+    
+    // Fetch the tier first to ensure it exists
+    const defaultTier = await this.em.findOne(Tier, { id: 1 });
+    if (!defaultTier) {
+      throw new Error('Default tier not found');
+    }
+    
+    user.tier = defaultTier;
+    user.createdAt = new Date();
+    user.updatedAt = new Date();
+    
     await this.em.persistAndFlush(user);
     return user;
   }
 
-  async changeUserTier(id: number, tierId: number) {
-    const user = await this.getById(id);
+  /**
+   * Changes the tier of a user identified by their wallet address.
+   *
+   * @param {User['wallet']} walletAddress - The wallet address of the user whose tier needs to be changed.
+   * @param {Tier['id']} tierId - The ID of the new tier to be assigned to the user.
+   * @returns {Promise<void>} A promise that resolves when the tier has been changed successfully.
+   * @throws {Error} If the user or tier is not found.
+   */
+  async changeUserTier(walletAddress: User['wallet'], tierId: Tier['id']) {
+    const user = await this.getByWallet(walletAddress);
     user.tier = await this.em.findOne(Tier, { id: tierId });
     await this.em.persistAndFlush(user);
   }

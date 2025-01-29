@@ -34,9 +34,16 @@ export class UserController {
     return await this.userService.register(signature);
   }
 
-  @Put('/user/:id/tier/:tierId')
-  async changeUserTier(@Param('id') id: number, @Param('tierId') tierId: number) {
-    return await this.userService.changeUserTier(id, tierId);
+  /**
+   * Updates the tier of a specific user.
+   *
+   * @param {string} walletAddress - The wallet address of the user whose tier needs to be updated.
+   * @param {number} tierId - The ID of the new tier to be assigned to the user.
+   * @returns {Promise<any>} A promise that resolves with the updated user information.
+   */
+  @Put('/user/:walletAddress/tier/:tierId')
+  async changeUserTier(@Param('walletAddress') walletAddress: string, @Param('tierId') tierId: number) {
+    return await this.userService.changeUserTier(walletAddress, tierId);
   }
 
   @Delete('/user/:id/tier')

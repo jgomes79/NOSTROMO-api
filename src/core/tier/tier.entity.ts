@@ -23,7 +23,7 @@ export class Tier {
   poolWeight: number;
 
   @Property()
-  beneficts: string;
+  benefits: string;
 
   @Property()
   createdAt: Date;
