@@ -70,9 +70,10 @@ export class UserService {
     await this.em.persistAndFlush(user);
   }
 
-  async removeUserTier(id: number) {
-    const user = await this.getById(id);
-    user.tier = null;
+  async unstake(walletAddress: User['wallet']) {
+    const user = await this.getByWallet(walletAddress);
+    user.tier = await this.em.findOne(Tier, { id: 1 });
+
     await this.em.persistAndFlush(user);
   }
 }

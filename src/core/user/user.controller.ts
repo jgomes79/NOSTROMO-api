@@ -46,9 +46,9 @@ export class UserController {
     return await this.userService.changeUserTier(walletAddress, tierId);
   }
 
-  @Delete('/user/:id/tier')
-  async removeUserTier(@Param('id') id: number) {
-    return await this.userService.removeUserTier(id);
+  @Put('/user/:walletAddress/unstake')
+  async unstake(@Param('walletAddress') walletAddress: string) {
+    return await this.userService.unstake(walletAddress);
   }
 }
 
