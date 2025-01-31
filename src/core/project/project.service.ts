@@ -281,7 +281,7 @@ export class ProjectService {
     page: number = 0,
     limit: number = 10
   ): Promise<{ rows: Project[]; count: number }> {
-    const where = { owner: { wallet: walletAddress } };
+    const where = Number(state) !== ProjectStates.SENT_TO_REVIEW ? { owner: { wallet: walletAddress } } : {};
 
     if (state !== undefined && state !== 'all') {
       where['state'] = state;
