@@ -16,7 +16,7 @@ export class Tier {
   @Property()
   description: string;
 
-  @Property({ default: 0 })
+  @Property({ type: 'double', default: 0 })
   stakeAmount: number;
 
   @Property({ type: 'double', default: 0 })

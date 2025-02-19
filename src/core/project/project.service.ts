@@ -318,4 +318,8 @@ export class ProjectService {
 
     return project;
   }
+
+  async getProjectsByStateAndUser(state: number, ownerId: number): Promise<Project[]> {
+    return await this.em.find(Project, { state, owner: { id: ownerId } });
+  }
 }

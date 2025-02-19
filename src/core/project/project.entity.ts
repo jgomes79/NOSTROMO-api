@@ -26,6 +26,9 @@ export class Project {
   @Property()
   slug: string;
 
+  @Property()
+  email: string;
+
   @Property({ type: 'text', default: null, nullable: true })
   description: string | null;
 
@@ -85,10 +88,10 @@ export class Project {
   @Property({ type: 'double', default: null, nullable: true })
   unlockTokensTGE: number | null;
 
-  @Property({ type: 'double', default: null, nullable: true })
+  @Property({ type: 'number', default: null, nullable: true })
   cliff: number | null;
 
-  @Property({ type: 'double', default: null, nullable: true })
+  @Property({ type: 'number', default: null, nullable: true })
   vestingDays: number | null;
 
   // Social Networks

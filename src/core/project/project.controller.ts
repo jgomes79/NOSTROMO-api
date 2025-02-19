@@ -213,4 +213,10 @@ export class ProjectController {
     const project = await this.projectService.reviewProject(projectId, body.response, body.comments);
     return new ProjectResponseDTO(project);
   }
+
+  @Get('/projects/state/:state/user/:userId')
+  async getProjectsByStateAndUser(@Param('state') state: number, @Param('ownerId') ownerId: number) {
+    const projects = await this.projectService.getProjectsByStateAndUser(state, ownerId);
+    return projects.map(project => new ProjectResponseDTO(project));
+  }
 }
