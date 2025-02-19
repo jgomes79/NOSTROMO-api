@@ -209,7 +209,8 @@ export class ProjectController {
   }
 
   @Post('/projects/:projectId/review')
-  async reviewProject(@Param('projectId') projectId: number, @Body() body: ReviewProjectRequestDTO) {
+  async reviewProject(@Param('projectId') projectId: number, @Param('wallet') wallet: string, @Body() body: ReviewProjectRequestDTO) {
+    // TODO. Use wallet
     const project = await this.projectService.reviewProject(projectId, body.response, body.comments);
     return new ProjectResponseDTO(project);
   }

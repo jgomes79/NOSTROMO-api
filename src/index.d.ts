@@ -1,6 +1,3 @@
-declare module 'csurf';
-declare module 'jsonwebtoken';
-
 declare namespace NodeJS {
   interface ProcessEnv {
     ENV: 'dev' | 'test' | 'prod';
