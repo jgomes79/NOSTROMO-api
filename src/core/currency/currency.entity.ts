@@ -29,6 +29,6 @@ export class Currency {
   updatedAt: Date;
 
   // Relationships
-  @OneToMany(() => Project, project => project.currency, { eager: true })
+  @OneToMany(() => Project, project => project.currency, { eager: false })
   projects = new Collection<Project>(this);
 }

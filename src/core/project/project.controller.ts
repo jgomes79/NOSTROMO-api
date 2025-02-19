@@ -136,7 +136,7 @@ export class ProjectController {
    * Fetches all VIP projects.
    * @returns A list of VIP project objects wrapped in a ProjectsResponseDTO.
    */
-  @Get('/projects/vip')
+  @Get('/projects/vip/all')
   async getAllVIPProjects() {
     const projects = await this.projectService.getAllVIPProjects();
     return new ProjectsResponseDTO({ rows: projects, count: projects.length });
