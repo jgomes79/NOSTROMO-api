@@ -33,6 +33,13 @@ export class CreateOrEditProjectDTO {
   description: string;
 
   /**
+   * The email of the project.
+   */
+  @IsString()
+  @IsNotEmpty() 
+  email: string;
+
+  /**
    * The photo file of the project.
    */
   @IsFile({ mimeTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'] })
@@ -194,6 +201,7 @@ export class ProjectResponseDTO {
   name: string;
   slug: string;
   description: string;
+  email: string;
   photoUrl: string;
   bannerUrl: string;
   tokenImageUrl: string;
@@ -223,6 +231,7 @@ export class ProjectResponseDTO {
       state: project.state,
       name: project.name,
       slug: project.slug,
+      email: project.email,
       description: project.description,
       photoUrl: project.photoUrl,
       bannerUrl: project.bannerUrl,

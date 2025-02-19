@@ -94,6 +94,7 @@ export class ProjectService {
     project.name = data.name;
     project.slug = data.slug;
     project.description = data.description;
+    project.email = data.email;
     project.state = ProjectStates.DRAFT;
 
     // Set token-related information
@@ -155,6 +156,7 @@ export class ProjectService {
     project.name = data.name;
     project.slug = data.slug;
     project.description = data.description;
+    project.email = data.email;
 
     // Update token-related information
     project.tokenName = data.tokenName;
