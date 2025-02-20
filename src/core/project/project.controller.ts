@@ -8,6 +8,7 @@ import {
   Body,
   UseInterceptors,
   UploadedFiles,
+  UseGuards,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
@@ -20,6 +21,7 @@ import { ProjectVoteService } from '@/core/project-vote/project-vote.service';
 import { CreateOrEditProjectDTO, CreateProjectInvestmentDTO, ProjectResponseDTO, ProjectsResponseDTO, ReviewProjectRequestDTO } from './project.dto';
 import { ProjectService } from './project.service';
 import { ProjectFiles, ProjectStates } from './project.types';
+import { AdminGuard } from '@/lib/security/guards/admin.guard';
 
 /**
  * Controller for handling project-related HTTP requests.
@@ -208,7 +210,8 @@ export class ProjectController {
     return new ProjectResponseDTO(project);
   }
 
-  @Post('/projects/:projectId/review')
+  @Post('/projects/:projectId/:wallet/review')
+  @UseGuards(AdminGuard)
   async reviewProject(@Param('projectId') projectId: number, @Param('wallet') wallet: string, @Body() body: ReviewProjectRequestDTO) {
     // TODO. Use wallet
     const project = await this.projectService.reviewProject(projectId, body.response, body.comments);

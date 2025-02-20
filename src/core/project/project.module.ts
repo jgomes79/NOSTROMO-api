@@ -11,6 +11,8 @@ import { ProjectController } from './project.controller';
 import { Project } from './project.entity';
 import { ProjectService } from './project.service';
 
+import { UserService } from '../user/user.service';
+
 /**
  * Module that provides project-related services and controllers.
  */
@@ -19,7 +21,7 @@ import { ProjectService } from './project.service';
     MikroOrmModule.forFeature({ entities: [Project] }),
   ],
   controllers: [ProjectController],
-  providers: [ProjectService, ProjectInvestmentService, ProjectRegistrationService, ProjectVoteService, AzureStorageService],
+  providers: [ProjectService, ProjectInvestmentService, ProjectRegistrationService, ProjectVoteService, AzureStorageService, UserService],
 })
 export class ProjectModule {}
 
