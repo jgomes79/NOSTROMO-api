@@ -8,7 +8,6 @@ import { ProjectModule } from '@/core/project/project.module';
 import { ProjectInvestmentModule } from '@/core/project-investment/project-investment.module';
 import { ProjectRegistrationModule } from '@/core/project-registration/project-registration.module';
 import { ProjectVoteModule } from '@/core/project-vote/project-vote.module';
-import { TierModule } from '@/core/tier/tier.module';
 import { UserModule } from '@/core/user/user.module';
 
 import mikroOrmConfig, { entities } from './mikro-orm.config';
@@ -28,7 +27,6 @@ import mikroOrmConfig, { entities } from './mikro-orm.config';
     ProjectVoteModule,
     UserModule,
     CurrencyModule,
-    TierModule,
   ],
   controllers: [],
 })

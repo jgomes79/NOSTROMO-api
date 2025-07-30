@@ -11,14 +11,15 @@ import { Project } from '@/core/project/project.entity';
 import { ProjectInvestment } from '@/core/project-investment/project-investment.entity';
 import { ProjectRegistration } from '@/core/project-registration/project-registration.entity';
 import { ProjectVote } from '@/core/project-vote/project-vote.entity';
-import { Tier } from '@/core/tier/tier.entity';
 import { User } from '@/core/user/user.entity';
+
+import { Migrator } from '@mikro-orm/migrations';
 
 // Load environment variables from .env file
 config();
 
 const logger = new Logger('MikroORM');
-export const entities = [User, Currency, Project, ProjectInvestment, ProjectVote, ProjectRegistration, Tier];
+export const entities = [User, Currency, Project, ProjectInvestment, ProjectVote, ProjectRegistration];
 
 const certificateDir = process.env.DB_CERTIFICATE_PATH || './src/certificates/db/DigiCertGlobalRootCA.crt.pem';
 
@@ -28,18 +29,26 @@ const mikroOrmConfig: Options = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
   dbName: process.env.DB_NAME || 'test',
-  entities: [User, Currency, Project, ProjectInvestment, ProjectVote, ProjectRegistration, Tier],
+  entities: [User, Currency, Project, ProjectInvestment, ProjectVote, ProjectRegistration],
   driver: MySqlDriver,
   highlighter: new SqlHighlighter(),
   logger: logger.log.bind(logger),
   namingStrategy: EntityCaseNamingStrategy,
-  driverOptions: {
+  extensions: [Migrator],
+  driverOptions: process.env.NODE_ENV === 'development' ? {
     connection: {
       ssl: {
-        ca: readFileSync(certificateDir)
-      }
-    }
-  }
+        require: true,
+        rejectUnauthorized: false
+      },
+    },
+  } : {    
+    connection: {
+      ssl: {
+        ca: readFileSync(certificateDir),
+      },
+    },
+  },
 };
 
 export default mikroOrmConfig;
