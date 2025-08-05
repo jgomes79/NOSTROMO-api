@@ -6,12 +6,11 @@ import { AzureStorageService } from '@/lib/azure/storage';
 import { ProjectInvestmentService } from '../project-investment/project-investment.service';
 import { ProjectRegistrationService } from '../project-registration/project-registration.service';
 import { ProjectVoteService } from '../project-vote/project-vote.service';
+import { UserService } from '../user/user.service';
 
 import { ProjectController } from './project.controller';
 import { Project } from './project.entity';
 import { ProjectService } from './project.service';
-
-import { UserService } from '../user/user.service';
 
 /**
  * Module that provides project-related services and controllers.

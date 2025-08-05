@@ -98,16 +98,16 @@ export class ProjectService {
     project.state = ProjectStates.DRAFT;
 
     // Set token-related information
-    project.tokenName = data.tokenName;
-    project.tokensSupply = data.tokensSupply;
-    project.tokenDecimals = data.tokenDecimals;
+    project.tokenName = ''
+    project.tokensSupply = null
+    project.tokenDecimals = null
 
     // Set fundraising-related information
-    project.amountToRaise = data.amountToRaise;
-    project.startDate = new Date(data.startDate);
-    project.threshold = data.threshold;
-    project.tokensForSale = data.tokensForSale;
-    project.unlockTokensTGE = data.unlockTokensTGE;
+    project.amountToRaise = null
+    project.startDate = null
+    project.threshold = null
+    project.tokensForSale = null
+    project.unlockTokensTGE = null
 
     // Set social media URLs
     project.discordUrl = data.discordUrl;
@@ -117,9 +117,9 @@ export class ProjectService {
     project.mediumUrl = data.mediumUrl;
 
     // Set vesting-related information
-    project.TGEDate = new Date(data.TGEDate);
-    project.cliff = data.cliff;
-    project.vestingDays = data.vestingDays;
+    project.TGEDate = null;
+    project.cliff = null
+    project.vestingDays = null
 
     // Assign owner and currency
     project.owner = owner;

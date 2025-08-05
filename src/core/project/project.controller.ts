@@ -17,11 +17,11 @@ import { ProjectInvestmentService } from '@/core/project-investment/project-inve
 import { ProjectRegistrationService } from '@/core/project-registration/project-registration.service';
 import { ProjectVoteDTO } from '@/core/project-vote/project-vote.dto';
 import { ProjectVoteService } from '@/core/project-vote/project-vote.service';
+import { AdminGuard } from '@/lib/security/guards/admin.guard';
 
 import { CreateOrEditProjectDTO, CreateProjectInvestmentDTO, ProjectResponseDTO, ProjectsResponseDTO, ReviewProjectRequestDTO } from './project.dto';
 import { ProjectService } from './project.service';
 import { ProjectFiles, ProjectStates } from './project.types';
-import { AdminGuard } from '@/lib/security/guards/admin.guard';
 
 /**
  * Controller for handling project-related HTTP requests.

@@ -2,6 +2,7 @@ import { EntityManager } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
 import { User } from '@/core/user/user.entity';
+
 import { UserTypes } from './user.types';
 
 @Injectable()
