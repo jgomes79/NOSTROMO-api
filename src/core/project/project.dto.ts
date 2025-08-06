@@ -100,12 +100,6 @@ export class CreateOrEditProjectDTO {
   tokensSupply: number;
 
   /**
-   * The number of decimals for the token.
-   */
-  @IsNumber()
-  tokenDecimals: number;
-
-  /**
    * The amount to raise for the project.
    */
   @IsNumber()
@@ -152,6 +146,9 @@ export class CreateOrEditProjectDTO {
    */
   @IsUrl()
   telegramUrl: string;
+
+  @IsUrl()
+  websiteUrl: string;
 
   /**
    * The Token Generation Event (TGE) date.
@@ -215,7 +212,6 @@ export class ProjectResponseDTO {
   tokensSupply: number;
   tokensForSale: number;
   tokenName: number;
-  tokenDecimals: number;
   TGEDate: Date;
   unlockTokensTGE: number;
   cliff: number;
@@ -224,6 +220,7 @@ export class ProjectResponseDTO {
   owner: UserDTO;
   social: SocialDTO;
   currency: CurrencyDTO;
+  websiteUrl: string;
 
   constructor(project: Project) {
     Object.assign(this, {
@@ -246,7 +243,6 @@ export class ProjectResponseDTO {
       tokensSupply: project.tokensSupply,
       tokensForSale: project.tokensForSale,
       tokenName: project.tokenName,
-      tokenDecimals: project.tokenDecimals,
       tokenPrice: project.amountToRaise / project.tokensForSale,
       TGEDate: project.TGEDate,
       unlockTokensTGE: project.unlockTokensTGE,
@@ -254,6 +250,7 @@ export class ProjectResponseDTO {
       vestingDays: project.vestingDays,
       createdAt: project.createdAt,
       currency: project.currency,
+      websiteUrl: project.websiteUrl,
 
       social: {
         instagramUrl: project.instagramUrl,

@@ -78,9 +78,6 @@ export class Project {
   @Property({ type: 'text', default: null, nullable: true })
   tokenName: string;
 
-  @Property({ type: 'number', default: null, nullable: true })
-  tokenDecimals: number | null;
-
   // Vesting Information
   @Property({ type: 'date', default: null, nullable: true })
   TGEDate: Date;
@@ -109,6 +106,9 @@ export class Project {
 
   @Property({ type: 'text', default: null, nullable: true })
   mediumUrl: string | null;
+
+  @Property({ type: 'text', default: null, nullable: true })
+  websiteUrl: string | null;
 
   @Property()
   createdAt: Date;

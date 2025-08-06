@@ -393,17 +393,6 @@
           "default": "null",
           "mappedType": "text"
         },
-        "tokenDecimals": {
-          "name": "tokenDecimals",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": null,
-          "default": "null",
-          "mappedType": "integer"
-        },
         "TGEDate": {
           "name": "TGEDate",
           "type": "date",
@@ -494,6 +483,17 @@
         },
         "mediumUrl": {
           "name": "mediumUrl",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": null,
+          "default": "null",
+          "mappedType": "text"
+        },
+        "websiteUrl": {
+          "name": "websiteUrl",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,

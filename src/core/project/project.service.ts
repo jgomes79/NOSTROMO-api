@@ -100,7 +100,6 @@ export class ProjectService {
     // Set token-related information
     project.tokenName = ''
     project.tokensSupply = null
-    project.tokenDecimals = null
 
     // Set fundraising-related information
     project.amountToRaise = null
@@ -115,6 +114,8 @@ export class ProjectService {
     project.instagramUrl = data.instagramUrl;
     project.xUrl = data.xUrl;
     project.mediumUrl = data.mediumUrl;
+
+    project.websiteUrl = data.websiteUrl;
 
     // Set vesting-related information
     project.TGEDate = null;
@@ -161,7 +162,6 @@ export class ProjectService {
     // Update token-related information
     project.tokenName = data.tokenName;
     project.tokensSupply = data.tokensSupply;
-    project.tokenDecimals = data.tokenDecimals;
 
     // Update fundraising-related information
     project.amountToRaise = data.amountToRaise;
@@ -176,6 +176,8 @@ export class ProjectService {
     project.instagramUrl = data.instagramUrl;
     project.xUrl = data.xUrl;
     project.mediumUrl = data.mediumUrl;
+
+    project.websiteUrl = data.websiteUrl;
 
     // Update vesting-related information
     project.TGEDate = new Date(data.TGEDate);
