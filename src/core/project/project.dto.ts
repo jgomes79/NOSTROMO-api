@@ -221,6 +221,7 @@ export class ProjectResponseDTO {
   social: SocialDTO;
   currency: CurrencyDTO;
   websiteUrl: string;
+  smartContractId: number;
 
   constructor(project: Project) {
     Object.assign(this, {
@@ -251,6 +252,7 @@ export class ProjectResponseDTO {
       createdAt: project.createdAt,
       currency: project.currency,
       websiteUrl: project.websiteUrl,
+      smartContractId: project.smartContractId,
 
       social: {
         instagramUrl: project.instagramUrl,

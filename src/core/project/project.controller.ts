@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFiles,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
@@ -222,5 +223,11 @@ export class ProjectController {
   async getProjectsByStateAndUser(@Param('state') state: number, @Param('ownerId') ownerId: number) {
     const projects = await this.projectService.getProjectsByStateAndUser(state, ownerId);
     return projects.map(project => new ProjectResponseDTO(project));
+  }
+
+  @Put('/projects/:projectId/smartcontractId/:smartContractId')
+  async updateProjectSmartContractId(@Param('projectId') projectId: number, @Param('smartContractId') smartContractId: number) {
+    const project = await this.projectService.updateProjectSmartContractId(projectId, smartContractId);
+    return new ProjectResponseDTO(project);
   }
 }

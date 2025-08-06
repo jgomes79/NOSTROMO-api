@@ -110,6 +110,9 @@ export class Project {
   @Property({ type: 'text', default: null, nullable: true })
   websiteUrl: string | null;
 
+  @Property({ type: 'number', default: null, nullable: true })
+  smartContractId: number | null;
+
   @Property()
   createdAt: Date;
 

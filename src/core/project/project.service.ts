@@ -326,4 +326,14 @@ export class ProjectService {
   async getProjectsByStateAndUser(state: number, ownerId: number): Promise<Project[]> {
     return await this.em.find(Project, { state, owner: { id: ownerId } });
   }
+
+  async updateProjectSmartContractId(projectId: number, smartContractId: number): Promise<Project> {
+    const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
+    // TODO. Add guard
+
+    project.smartContractId = smartContractId;
+    await this.em.persistAndFlush(project);
+
+    return project;
+  }
 }
