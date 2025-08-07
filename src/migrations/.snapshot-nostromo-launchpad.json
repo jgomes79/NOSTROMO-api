@@ -351,14 +351,14 @@
         },
         "startDate": {
           "name": "startDate",
-          "type": "date",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
           "length": null,
           "default": "null",
-          "mappedType": "date"
+          "mappedType": "datetime"
         },
         "tokensSupply": {
           "name": "tokensSupply",
@@ -395,14 +395,14 @@
         },
         "TGEDate": {
           "name": "TGEDate",
-          "type": "date",
+          "type": "datetime",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
           "length": null,
           "default": "null",
-          "mappedType": "date"
+          "mappedType": "datetime"
         },
         "unlockTokensTGE": {
           "name": "unlockTokensTGE",

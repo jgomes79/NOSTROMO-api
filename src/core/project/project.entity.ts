@@ -65,7 +65,7 @@ export class Project {
   @Property({ type: 'decimal', default: null, nullable: true })
   threshold: number | null;
 
-  @Property({ type: 'date', default: null, nullable: true })
+  @Property({ type: 'datetime', default: null, nullable: true })
   startDate: Date | null;
 
   // Token Information
@@ -79,7 +79,7 @@ export class Project {
   tokenName: string;
 
   // Vesting Information
-  @Property({ type: 'date', default: null, nullable: true })
+  @Property({ type: 'datetime', default: null, nullable: true })
   TGEDate: Date;
 
   @Property({ type: 'double', default: null, nullable: true })
