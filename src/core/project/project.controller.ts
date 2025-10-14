@@ -20,7 +20,7 @@ import { ProjectVoteDTO } from '@/core/project-vote/project-vote.dto';
 import { ProjectVoteService } from '@/core/project-vote/project-vote.service';
 import { AdminGuard } from '@/lib/security/guards/admin.guard';
 
-import { CreateOrEditProjectDTO, CreateProjectInvestmentDTO, ProjectResponseDTO, ProjectsResponseDTO, ReviewProjectRequestDTO } from './project.dto';
+import { CreateOrEditProjectDTO, CreateProjectInvestmentDTO, ProjectResponseDTO, ProjectsResponseDTO, PublishProjectRequestDTO, ReviewProjectRequestDTO } from './project.dto';
 import { ProjectService } from './project.service';
 import { ProjectFiles, ProjectStates } from './project.types';
 
@@ -186,7 +186,7 @@ export class ProjectController {
     return new ProjectsResponseDTO({ rows: projects, count: projects.length });
   }
   
-    /**
+  /**
    * Fetches all projects by a specific owner.
    * @param walletAddress The wallet address whose projects are to be fetched.
    * @param state The state of the projects to fetch.
@@ -206,8 +206,8 @@ export class ProjectController {
   }
 
   @Post('/projects/:projectId/publish')
-  async publishProject(@Param('projectId') projectId: number) {
-    const project = await this.projectService.publishProject(projectId);
+  async publishProject(@Param('projectId') projectId: number, @Body() body: PublishProjectRequestDTO) {
+    const project = await this.projectService.publishProject(projectId, body.smartContractId);
     return new ProjectResponseDTO(project);
   }
 

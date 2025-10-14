@@ -59,7 +59,7 @@ export class Project {
   comments: string;
 
   // Raising funds information
-  @Property({ type: 'decimal', default: null, nullable: true })
+  @Property({ type: 'float', default: null, nullable: true })
   amountToRaise: number | null;
 
   @Property({ type: 'decimal', default: null, nullable: true })
@@ -69,10 +69,10 @@ export class Project {
   startDate: Date | null;
 
   // Token Information
-  @Property({ type: 'number', default: null, nullable: true })
+  @Property({ type: 'float', default: null, nullable: true })
   tokensSupply: number | null;
 
-  @Property({ type: 'number', default: null, nullable: true })
+  @Property({ type: 'float', default: null, nullable: true })
   tokensForSale: number | null;
 
   @Property({ type: 'text', default: null, nullable: true })
@@ -82,7 +82,7 @@ export class Project {
   @Property({ type: 'datetime', default: null, nullable: true })
   TGEDate: Date;
 
-  @Property({ type: 'double', default: null, nullable: true })
+  @Property({ type: 'float', default: null, nullable: true })
   unlockTokensTGE: number | null;
 
   @Property({ type: 'number', default: null, nullable: true })

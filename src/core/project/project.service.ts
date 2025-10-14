@@ -98,15 +98,15 @@ export class ProjectService {
     project.state = ProjectStates.DRAFT;
 
     // Set token-related information
-    project.tokenName = ''
-    project.tokensSupply = null
+    project.tokenName = data.tokenName;
+    project.tokensSupply = data.tokensSupply;
 
     // Set fundraising-related information
-    project.amountToRaise = null
-    project.startDate = null
-    project.threshold = null
-    project.tokensForSale = null
-    project.unlockTokensTGE = null
+    project.amountToRaise = data.amountToRaise;
+    project.startDate = data.startDate;
+    project.threshold = data.threshold;
+    project.tokensForSale = data.tokensForSale;
+    project.unlockTokensTGE = data.unlockTokensTGE;
 
     // Set social media URLs
     project.discordUrl = data.discordUrl;
@@ -118,9 +118,9 @@ export class ProjectService {
     project.websiteUrl = data.websiteUrl;
 
     // Set vesting-related information
-    project.TGEDate = null;
-    project.cliff = null
-    project.vestingDays = null
+    project.TGEDate = data.TGEDate;
+    project.cliff = data.cliff;
+    project.vestingDays = data.vestingDays;
 
     // Assign owner and currency
     project.owner = owner;
@@ -305,9 +305,17 @@ export class ProjectService {
     return { rows, count };
   }
 
-  async publishProject(projectId: number): Promise<Project> {
+  /**
+   * Publishes a project and sets the smart contract ID.
+   *
+   * @param {number} projectId - The ID of the project to publish.
+   * @param {number} smartContractId - The ID of the smart contract to set.
+   * @returns {Promise<Project>} A promise that resolves to the published project.
+   */
+  async publishProject(projectId: number, smartContractId: number): Promise<Project> {
     const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
     project.state = ProjectStates.SENT_TO_REVIEW;
+    project.smartContractId = smartContractId;
     await this.em.persistAndFlush(project);
 
     return project;

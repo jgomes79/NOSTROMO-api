@@ -327,15 +327,14 @@
         },
         "amountToRaise": {
           "name": "amountToRaise",
-          "type": "numeric(10,0)",
+          "type": "float",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "precision": 10,
-          "scale": 0,
+          "length": null,
           "default": "null",
-          "mappedType": "decimal"
+          "mappedType": "float"
         },
         "threshold": {
           "name": "threshold",
@@ -362,25 +361,25 @@
         },
         "tokensSupply": {
           "name": "tokensSupply",
-          "type": "int",
+          "type": "float",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
           "length": null,
           "default": "null",
-          "mappedType": "integer"
+          "mappedType": "float"
         },
         "tokensForSale": {
           "name": "tokensForSale",
-          "type": "int",
+          "type": "float",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
           "length": null,
           "default": "null",
-          "mappedType": "integer"
+          "mappedType": "float"
         },
         "tokenName": {
           "name": "tokenName",
@@ -406,14 +405,14 @@
         },
         "unlockTokensTGE": {
           "name": "unlockTokensTGE",
-          "type": "double",
+          "type": "float",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
           "length": null,
           "default": "null",
-          "mappedType": "double"
+          "mappedType": "float"
         },
         "cliff": {
           "name": "cliff",

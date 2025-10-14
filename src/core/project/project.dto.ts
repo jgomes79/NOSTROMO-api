@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
 
 import { CurrencyDTO } from '@/core/currency/currency.dto';
@@ -7,6 +7,7 @@ import { IsFile } from '@/lib/decorators/file.decorators';
 
 import { Project } from './project.entity';
 import { ProjectStates } from './project.types';
+import { User } from '../user/user.entity';
 
 /**
  * Data Transfer Object for creating or editing a project.
@@ -192,6 +193,15 @@ export class CreateProjectInvestmentDTO {
   amount: number;
 }
 
+/**
+ * Data Transfer Object for publishing a project.
+ */
+export class PublishProjectRequestDTO {
+  @IsNumber()
+  @Transform(({ value }) => Number(value))
+  smartContractId: number;
+}
+
 export class ProjectResponseDTO {
   id: number;
   state: ProjectStates;
@@ -217,11 +227,11 @@ export class ProjectResponseDTO {
   cliff: number;
   vestingDays: number;
   createdAt: Date;
-  owner: UserDTO;
   social: SocialDTO;
   currency: CurrencyDTO;
   websiteUrl: string;
   smartContractId: number;
+  owner: Pick<User, 'id' | 'wallet'>;
 
   constructor(project: Project) {
     Object.assign(this, {
@@ -253,7 +263,10 @@ export class ProjectResponseDTO {
       currency: project.currency,
       websiteUrl: project.websiteUrl,
       smartContractId: project.smartContractId,
-
+      owner: {
+        id: project.owner.id,
+        wallet: project.owner.wallet,
+      },
       social: {
         instagramUrl: project.instagramUrl,
         xUrl: project.xUrl,
