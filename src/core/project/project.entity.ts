@@ -58,6 +58,13 @@ export class Project {
   @Property({ type: 'text', default: null, nullable: true })
   comments: string;
 
+  // Voting information
+  @Property({ type: 'datetime', default: null, nullable: true })
+  votingStartDate: Date | null;
+
+  @Property({ type: 'datetime', default: null, nullable: true })
+  votingEndDate: Date | null;
+
   // Raising funds information
   @Property({ type: 'float', default: null, nullable: true })
   amountToRaise: number | null;

@@ -205,6 +205,17 @@ export class ProjectController {
     return new ProjectsResponseDTO({ rows: projects.rows, count: projects.count });
   }
 
+  /**
+   * Sends a project to review.
+   * @param projectId The ID of the project to send to review.
+   * @returns A ProjectResponseDTO containing the sent project details.
+   */
+  @Post('/projects/:projectId/send-to-review')
+  async sendToReview(@Param('projectId') projectId: number) {
+    const project = await this.projectService.sendToReview(projectId);
+    return new ProjectResponseDTO(project);
+  }
+
   @Post('/projects/:projectId/publish')
   async publishProject(@Param('projectId') projectId: number, @Body() body: PublishProjectRequestDTO) {
     const project = await this.projectService.publishProject(projectId, body.smartContractId);

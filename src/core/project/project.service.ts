@@ -103,7 +103,7 @@ export class ProjectService {
 
     // Set fundraising-related information
     project.amountToRaise = data.amountToRaise;
-    project.startDate = data.startDate;
+    project.startDate = new Date(data.startDate);
     project.threshold = data.threshold;
     project.tokensForSale = data.tokensForSale;
     project.unlockTokensTGE = data.unlockTokensTGE;
@@ -118,7 +118,7 @@ export class ProjectService {
     project.websiteUrl = data.websiteUrl;
 
     // Set vesting-related information
-    project.TGEDate = data.TGEDate;
+    project.TGEDate = new Date(data.TGEDate);
     project.cliff = data.cliff;
     project.vestingDays = data.vestingDays;
 
@@ -240,6 +240,19 @@ export class ProjectService {
   }
 
   /**
+   * Sends a project to review.
+   *
+   * @param {number} projectId - The ID of the project to send to review.
+   * @returns {Promise<Project>} A promise that resolves to the sent project.
+   */
+  async sendToReview(projectId: number): Promise<Project> {
+    const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
+    project.state = ProjectStates.SENT_TO_REVIEW;
+    await this.em.persistAndFlush(project);
+    return project;
+  }
+
+  /**
    * Retrieves all projects owned by a specific owner.
    *
    * @param {number} ownerId - The ID of the owner whose projects to retrieve.
@@ -321,10 +334,18 @@ export class ProjectService {
     return project;
   }
 
+  /**
+   * Reviews a project and updates its state based on the response.
+   *
+   * @param {number} projectId - The ID of the project to review.
+   * @param {number} response - The response to the review.
+   * @param {string} comments - The comments to the review.
+   * @returns {Promise<Project>} A promise that resolves to the reviewed project.
+   */
   async reviewProject(projectId: number, response: number, comments: string): Promise<Project> {
     // response: 0 - rejected, 1 - approved, 2 - more info needed
     const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
-    project.state = response == 2 ? ProjectStates.REQUEST_MORE_INFO : response == 1 ? ProjectStates.READY_TO_VOTE : ProjectStates.REJECTED;
+    project.state = response == 2 ? ProjectStates.REQUEST_MORE_INFO : response == 1 ? ProjectStates.PENDING_TO_CREATE : ProjectStates.REJECTED;
     response == 2 ? project.comments = comments : null;
     await this.em.persistAndFlush(project);
 
