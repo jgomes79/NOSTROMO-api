@@ -216,6 +216,13 @@ export class ProjectController {
     return new ProjectResponseDTO(project);
   }
 
+  @Post('/projects/:projectId/:wallet/move-to-pending-to-create-phase')
+  @UseGuards(AdminGuard)
+  async moveToUpcomingPhase(@Param('projectId') projectId: number) {
+    const project = await this.projectService.moveToPendingToCreatePhase(projectId);
+    return new ProjectResponseDTO(project);
+  }
+
   @Post('/projects/:projectId/publish')
   async publishProject(@Param('projectId') projectId: number, @Body() body: PublishProjectRequestDTO) {
     const project = await this.projectService.publishProject(projectId, body.smartContractId);

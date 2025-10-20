@@ -253,6 +253,19 @@ export class ProjectService {
   }
 
   /**
+   * Moves a project to the pending to create phase.
+   *
+   * @param {number} projectId - The ID of the project to move to the pending to create phase.
+   * @returns {Promise<Project>} A promise that resolves to the moved project.
+   */
+  async moveToPendingToCreatePhase(projectId: number): Promise<Project> {
+    const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
+    project.state = ProjectStates.PENDING_TO_CREATE;
+    await this.em.persistAndFlush(project);
+    return project;
+  }
+
+  /**
    * Retrieves all projects owned by a specific owner.
    *
    * @param {number} ownerId - The ID of the owner whose projects to retrieve.

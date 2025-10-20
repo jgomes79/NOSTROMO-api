@@ -11,7 +11,6 @@ export class AdminGuard implements CanActivate {
         const request = context.switchToHttp().getRequest();
         const wallet = request.params.wallet;
         if (!wallet) return false;
-
         const user = await this.userService.getByWallet(wallet);
         if (!user) return false;
 
