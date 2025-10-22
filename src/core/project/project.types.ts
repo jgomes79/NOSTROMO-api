@@ -38,29 +38,34 @@ export enum ProjectStates {
   UPCOMING = 6,
 
   /**
+   * The project is in the pending to create phase.
+   */
+  PENDING_TO_CREATE_FUNDRAISING = 7,
+
+  /**
    * The project is in the first phase of funding.
    */
-  FUNDING_PHASE_1 = 7,
+  FUNDING_PHASE_1 = 8,
 
   /**
    * The project is in the second phase of funding.
    */
-  FUNDING_PHASE_2 = 8,
+  FUNDING_PHASE_2 = 9,
 
   /**
    * The project is in the third phase of funding.
    */
-  FUNDING_PHASE_3 = 9,
+  FUNDING_PHASE_3 = 10,
 
   /**
    * The project is closed.
    */
-  CLOSED = 10,
+  CLOSED = 11,
 
   /**
    * The project has failed.
    */
-  FAILED = 11
+  FAILED = 12
 }
 
 /**

@@ -216,6 +216,18 @@ export class ProjectController {
     return new ProjectResponseDTO(project);
   }
 
+  /**
+   * Retrieves all projects available for voting.
+   * @param page The page number for pagination.
+   * @param limit The number of projects per page.
+   * @returns A list of project objects available for voting, wrapped in a ProjectsResponseDTO.
+   */
+  @Get('/projects/available-for-voting')
+  async getAllProjectsAvailableForVoting(@Query('page') page: number = 0, @Query('limit') limit: number = 10) {
+    const { rows, count } = await this.projectService.getAllProjectsAvailableForVoting(page, limit);
+    return new ProjectsResponseDTO({ rows, count });
+  }
+
   @Post('/projects/:projectId/:wallet/move-to-pending-to-create-phase')
   @UseGuards(AdminGuard)
   async moveToUpcomingPhase(@Param('projectId') projectId: number) {
@@ -223,9 +235,28 @@ export class ProjectController {
     return new ProjectResponseDTO(project);
   }
 
+  /**
+   * Moves a project to the pending to create fundraising phase.
+   * @param projectId The ID of the project to move to the pending to create fundraising phase.
+   * @param wallet The wallet of the project to move to the pending to create fundraising phase.
+   * @returns A ProjectResponseDTO containing the moved project details.
+   */
+  @Post('/projects/:projectId/:wallet/move-to-pending-to-create-fundraising')
+  @UseGuards(AdminGuard)
+  async moveToPendingToCreateFundraisingPhase(@Param('projectId') projectId: number, @Param('wallet') wallet: string) {
+    const project = await this.projectService.moveToPendingToCreateFundraisingPhase(projectId);
+    return new ProjectResponseDTO(project);
+  }
+
+  /**
+   * Publishes a project.
+   * @param projectId The ID of the project to publish.
+   * @param body The data for publishing the project, validated against PublishProjectRequestDTO.
+   * @returns A ProjectResponseDTO containing the published project details.
+   */
   @Post('/projects/:projectId/publish')
   async publishProject(@Param('projectId') projectId: number, @Body() body: PublishProjectRequestDTO) {
-    const project = await this.projectService.publishProject(projectId, body.smartContractId);
+    const project = await this.projectService.publishProject(projectId, body);
     return new ProjectResponseDTO(project);
   }
 

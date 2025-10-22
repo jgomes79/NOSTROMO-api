@@ -6,7 +6,7 @@ import { AzureStorageService } from '@/lib/azure/storage';
 import { Currency } from '../currency/currency.entity';
 import { User } from '../user/user.entity';
 
-import { CreateOrEditProjectDTO } from './project.dto';
+import { CreateOrEditProjectDTO, PublishProjectRequestDTO } from './project.dto';
 import { Project } from './project.entity';
 import { ProjectFiles, ProjectStates } from './project.types';
 
@@ -224,6 +224,19 @@ export class ProjectService {
   }
 
   /**
+   * Moves a project to the pending to create fundraising phase.
+   *
+   * @param {number} projectId - The ID of the project to move to the pending to create fundraising phase.
+   * @returns {Promise<Project>} A promise that resolves to the moved project.
+   */
+  async moveToPendingToCreateFundraisingPhase(projectId: number): Promise<Project> {
+    const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
+    project.state = ProjectStates.PENDING_TO_CREATE_FUNDRAISING;
+    await this.em.persistAndFlush(project);
+    return project;
+  }
+
+  /**
    * Retrieves all VIP projects that are in specific funding phases.
    *
    * @returns {Promise<Project[]>} A promise that resolves to an array of VIP projects.
@@ -296,6 +309,31 @@ export class ProjectService {
   }
 
   /**
+   * Retrieves all projects available for voting.
+   *
+   * @param {number} page - The page number for pagination.
+   * @param {number} limit - The number of projects per page.
+   * @returns {Promise<{ rows: Project[]; count: number }>} A promise that resolves to an object containing the projects and the total count.
+   */
+  async getAllProjectsAvailableForVoting(
+    page: number = 0,
+    limit: number = 10
+  ): Promise<{ rows: Project[]; count: number }> {
+    const [rows, count] = await this.em.findAndCount(
+      Project,
+      { state: ProjectStates.READY_TO_VOTE },
+      {
+        limit,
+        offset: page * limit,
+        orderBy: { id: 'DESC' },
+        populate: ['currency', 'owner']
+      }
+    );
+
+    return { rows, count };
+  }
+
+  /**
    * Retrieves all projects owned by a specific wallet address with optional state filter and pagination.
    *
    * @param {Project['owner']['wallet']} walletAddress - The blockchain wallet address of the project owner
@@ -338,12 +376,13 @@ export class ProjectService {
    * @param {number} smartContractId - The ID of the smart contract to set.
    * @returns {Promise<Project>} A promise that resolves to the published project.
    */
-  async publishProject(projectId: number, smartContractId: number): Promise<Project> {
+  async publishProject(projectId: number, data: PublishProjectRequestDTO): Promise<Project> {
     const project = await this.em.findOneOrFail(Project, projectId, { populate: ['owner'] });
-    project.state = ProjectStates.SENT_TO_REVIEW;
-    project.smartContractId = smartContractId;
+    project.state = ProjectStates.READY_TO_VOTE;
+    project.smartContractId = data.smartContractId;
+    project.votingStartDate = new Date(data.votingStartDate);
+    project.votingEndDate = new Date(data.votingEndDate);
     await this.em.persistAndFlush(project);
-
     return project;
   }
 

@@ -197,6 +197,12 @@ export class CreateProjectInvestmentDTO {
  * Data Transfer Object for publishing a project.
  */
 export class PublishProjectRequestDTO {
+  @Type(() => Date)
+  votingStartDate: Date;
+
+  @Type(() => Date)
+  votingEndDate: Date;
+
   @IsNumber()
   @Transform(({ value }) => Number(value))
   smartContractId: number;
@@ -232,6 +238,8 @@ export class ProjectResponseDTO {
   websiteUrl: string;
   smartContractId: number;
   owner: Pick<User, 'id' | 'wallet'>;
+  votingStartDate: Date;
+  votingEndDate: Date;
 
   constructor(project: Project) {
     Object.assign(this, {
@@ -255,6 +263,8 @@ export class ProjectResponseDTO {
       tokensForSale: project.tokensForSale,
       tokenName: project.tokenName,
       tokenPrice: project.amountToRaise / project.tokensForSale,
+      votingStartDate: project.votingStartDate,
+      votingEndDate: project.votingEndDate,
       TGEDate: project.TGEDate,
       unlockTokensTGE: project.unlockTokensTGE,
       cliff: project.cliff,
