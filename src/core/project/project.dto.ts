@@ -242,6 +242,7 @@ export class ProjectResponseDTO {
   votingEndDate: Date;
 
   constructor(project: Project) {
+    console.log({project})
     Object.assign(this, {
       id: project.id,
       state: project.state,

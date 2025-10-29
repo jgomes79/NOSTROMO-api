@@ -1,5 +1,5 @@
 import { EntityManager } from '@mikro-orm/core';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { AzureStorageService } from '@/lib/azure/storage';
 
@@ -198,7 +198,13 @@ export class ProjectService {
    * @returns {Promise<Project>} A promise that resolves to the project with the specified slug.
    */
   async getBySlug(slug: string): Promise<Project> {
-    return await this.em.findOne(Project, { slug }, { populate: ['currency', 'owner'] });
+    const response = await this.em.findOne(Project, { slug }, { populate: ['currency', 'owner'] });
+
+    if (!response) {
+      throw new NotFoundException('Project not found');
+    }
+
+    return response;
   }
 
   /**
