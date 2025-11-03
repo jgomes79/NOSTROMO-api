@@ -370,17 +370,6 @@
           "default": "null",
           "mappedType": "decimal"
         },
-        "publishDate": {
-          "name": "publishDate",
-          "type": "datetime",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": null,
-          "default": "null",
-          "mappedType": "datetime"
-        },
         "startDate": {
           "name": "startDate",
           "type": "datetime",
