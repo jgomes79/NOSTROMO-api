@@ -2,6 +2,7 @@ import { EntityManager } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
 import { AzureStorageService } from '@/lib/azure/storage';
+import { SpacesStorageService } from "@/lib/digitalocean/spaces.service";
 
 import { Currency } from '../currency/currency.entity';
 import { User } from '../user/user.entity';
@@ -12,7 +13,11 @@ import { ProjectFiles, ProjectStates } from './project.types';
 
 @Injectable()
 export class ProjectService {
-  constructor(private readonly em: EntityManager, private readonly azureStorageService: AzureStorageService) {}
+  constructor(
+    private readonly em: EntityManager, 
+    private readonly azureStorageService: AzureStorageService,
+    private readonly spacesStorageService: SpacesStorageService
+  ) {}
 
   /**
    * Retrieves a Project by its ID.
@@ -43,22 +48,46 @@ export class ProjectService {
     const fileUploadPromises = [];
 
     if (photo) {
-        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(photo).then(url => project.photoUrl = url));
+        fileUploadPromises.push(
+			    process.env.NODE_ENV === "production"
+            ? await this.spacesStorageService.uploadMulterFile(photo).then(url => project.photoUrl = url)
+            : await this.azureStorageService.uploadImageToAzure(photo).then(url => project.photoUrl = url)
+        );
     }
     if (banner) {
-        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(banner).then(url => project.bannerUrl = url));
+        fileUploadPromises.push(
+          process.env.NODE_ENV === "production"
+            ? await this.spacesStorageService.uploadMulterFile(banner).then(url => project.bannerUrl = url)
+            : await this.azureStorageService.uploadImageToAzure(banner).then(url => project.bannerUrl = url)
+        );
     }
     if (tokenImage) {
-        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(tokenImage).then(url => project.tokenImageUrl = url));
+        fileUploadPromises.push(
+          process.env.NODE_ENV === "production"
+            ? await this.spacesStorageService.uploadMulterFile(tokenImage).then(url => project.tokenImageUrl = url)
+            : await this.azureStorageService.uploadImageToAzure(tokenImage).then(url => project.tokenImageUrl = url)
+        );
     }
     if (litepaper) {
-        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(litepaper).then(url => project.litepaperUrl = url));
+        fileUploadPromises.push(
+          process.env.NODE_ENV === "production"
+            ? await this.spacesStorageService.uploadMulterFile(litepaper).then(url => project.litepaperUrl = url)
+            : await this.azureStorageService.uploadImageToAzure(litepaper).then(url => project.litepaperUrl = url)
+        );
     }
     if (tokenomics) {
-        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(tokenomics).then(url => project.tokenomicsUrl = url));
+        fileUploadPromises.push(
+          process.env.NODE_ENV === "production"
+            ? await this.spacesStorageService.uploadMulterFile(tokenomics).then(url => project.tokenomicsUrl = url)
+            : await this.azureStorageService.uploadImageToAzure(tokenomics).then(url => project.tokenomicsUrl = url)
+        );
     }
     if (whitepaper) {
-        fileUploadPromises.push(this.azureStorageService.uploadImageToAzure(whitepaper).then(url => project.whitepaperUrl = url));
+        fileUploadPromises.push(
+          process.env.NODE_ENV === "production"
+            ? await this.spacesStorageService.uploadMulterFile(whitepaper).then(url => project.whitepaperUrl = url)
+            : await this.azureStorageService.uploadImageToAzure(whitepaper).then(url => project.whitepaperUrl = url)
+        );
     }
 
     await Promise.all(fileUploadPromises);
