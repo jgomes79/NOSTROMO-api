@@ -16,18 +16,27 @@ export const csurfConfigOptions = {
 };
 
 // Types
-type Domains = Record<'LOCAL' | 'STAGING' | 'PRO', string[]>;
+type Domains = Record<'LOCAL' | 'STAGING' | 'PRODUCTION', string[]>;
+
+/**
+ * Get domains from environment variable.
+ * @returns Domains from environment variable.
+ */
+const getDomainsFromEnv = () => {
+  const corseDomain = process.env.CORS_DOMAIN.split(',');
+  return Array.from(new Set(corseDomain));
+};
 
 /**
  * Domains configuration for different environments.
  * LOCAL: Domains for local development.
  * DEV: Domains for the development environment.
- * PRO: Domains for the production environment.
+ * PRODUCTION: Domains for the production environment.
  */
 const domains: Domains = {
-  LOCAL: ['http://127.0.0.1:4200', 'http://localhost:4200', process.env.CORS_DOMAIN],
-  STAGING: [process.env.CORS_DOMAIN],
-  PRO: [process.env.CORS_DOMAIN],
+  LOCAL: ['http://localhost:4200', 'http://127.0.0.1:4200', ...getDomainsFromEnv()],
+  STAGING: [...getDomainsFromEnv()],
+  PRODUCTION: [...getDomainsFromEnv()],
 };
 
 export default domains;
